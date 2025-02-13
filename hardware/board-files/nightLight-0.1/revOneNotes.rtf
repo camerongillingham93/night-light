@@ -1,0 +1,61 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2759
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica-Bold;\f1\fswiss\fcharset0 Helvetica;\f2\fnil\fcharset0 Monaco;
+}
+{\colortbl;\red255\green255\blue255;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\cssrgb\c100000\c100000\c100000;\cssrgb\c0\c0\c0;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\b\fs48 \cf0 \ul \ulc0 Nightlight Rev 1 notes
+\f1\b0 \ulnone \
+
+\fs24 \
+
+\fs36 \ul Assembly 
+\fs24 \ulnone \
+\
+- Get stencil and use hot plate for next order, voltage regulator was very challenging to hand solder and bridged many times before successfully soldering. \
+\
+- Was missing 10K 1210 SMT resistors from order, R1,R2,R6\
+\
+- Need to think of a better method for attaching LED strips or use different part, they are very thin and challenging to attach to board. Maybe Rigour angle headers? \
+\
+
+\fs36 \ul Testing \ulnone \
+
+\fs24 \
+\ul Voltage regulator - 
+\f2\fs26\fsmilli13333 \cb2 \expnd0\expndtw0\kerning0
+\ulnone PAM2401SCADJ
+\f1\fs24 \cb1 \kerning1\expnd0\expndtw0 \
+- Once soldered succesfully, swept the Vin range given by the data sheet and had a steady 5V output\
+\
+\ul Charge controller - 
+\f2\fs26\fsmilli13333 \cb2 \expnd0\expndtw0\kerning0
+\ulnone MCP73831-2-OT
+\f1\fs24 \cb1 \kerning1\expnd0\expndtw0 \ul \
+\ulnone - Discharged a 3800 mAh 3.7 li-ion to 3.6V \
+- scraped open the Vbatt trace leading to the charge controller to measure current\
+- Set up meters to measure Vbatt and Ibatt\
+- plugged in USB cable and monitored output \
+- I out was 100mA and stayed at the current until Vbatt was 4.2V, At this point Ibatt started to lower until ~60mA and maintained a voltage of 4.2. This is as expected with a 10K resistor on PROG pin. \
+\
+\ul MCU 
+\f2\fs26\fsmilli13333 \cb2 \expnd0\expndtw0\kerning0
+\ulnone ATtiny1614-SS\
+
+\f1\fs24 \cb1 \kerning1\expnd0\expndtw0 - Flashed the ATTINY via serial UPDI with a cp2021 USB-UART module\
+- Instructions @ {\field{\*\fldinst{HYPERLINK "https://github.com/SpenceKonde/AVR-Guidance/blob/master/UPDI/jtag2updi.md"}}{\fldrslt https://github.com/SpenceKonde/AVR-Guidance/blob/master/UPDI/jtag2updi.md}}\
+- tested by placing a LED across switch pin and running a BLINK script.\
+\
+\ul NEXT TIME TODO\ulnone \
+- Ground was missed on charge controller IC\
+- Add decoupling caps to MCU\
+- add 0 OHM R to separate regulator and charge controller for testing\
+- Use a bi-colour LED on the STAT pin of the charge controller\
+- Use ADC on MCU to measure Vbatt and disable nightlight at low voltage threshold and prompt charge somehow \
+- find a better USB-C port that actually uses CC resistors so product will work with PD\
+\
+\
+\
+}
