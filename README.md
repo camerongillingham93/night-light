@@ -7,4 +7,5 @@
  - Onboard LI-PO battery that is USB-C re-chargeable
 
 ![alt text](image.png)
+<br>
 *Rendering of Top of the night-light PCB*
