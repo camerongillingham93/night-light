@@ -34,5 +34,9 @@ MCU ATtiny1614-SS
 - add 0 OHM R to separate regulator and charge controller for testing
 - Use a bi-colour LED on the STAT pin of the charge controller
 - Use ADC on MCU to measure Vbatt and disable nightlight at low voltage threshold and prompt charge somehow, OR find a solution to use a pin from the power supply for some sort of LVD
+    - Design a 2:1 Voltage divider on the ADC input. Although i dont think it is needed as a Vref can be either internal(selectable) or VDD, in which case place a 0ohm inline.
 - find a better USB-C port that actually uses CC resistors so product will work with PD
 - breakout serial pins for comms with the board
+- try to wire up PTC to touch pad with 0ohm
+- Add a reset button
+

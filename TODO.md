@@ -5,4 +5,5 @@
 2. Begin on PCB layout for rev2
     - Reference rev1 notes
 3. Start writing firmware
+    - Figure out PTC
     - start with flow chart? 
