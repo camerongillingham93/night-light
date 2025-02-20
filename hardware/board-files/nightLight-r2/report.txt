@@ -1,0 +1,183 @@
+Info: Processing symbol 'B1:myFootprintDesigns:fireflyTouch'.
+Info: Processing symbol 'U3:Package_TO_SOT_SMD:SOT-23-5'.
+Info: Processing symbol 'U2:Package_SO:SOIC-14_3.9x8.7mm_P1.27mm'.
+Info: Processing symbol 'BT1:myFootprintDesigns:14500 Holder'.
+Info: Processing symbol 'C1:Capacitor_SMD:C_1206_3216Metric'.
+Info: Processing symbol 'SW2:Connector_PinHeader_2.54mm:PinHeader_2x01_P2.54mm_Vertical_SMD'.
+Info: Processing symbol 'S1:PTS526_SM08_SMTR2_LFS:SW_PTS526_SM08_SMTR2_LFS'.
+Info: Processing symbol 'C2:Capacitor_SMD:C_1206_3216Metric'.
+Info: Processing symbol 'R11:Resistor_SMD:R_1206_3216Metric'.
+Info: Processing symbol 'R10:Resistor_SMD:R_1206_3216Metric'.
+Info: Processing symbol 'C3:Capacitor_SMD:C_1206_3216Metric'.
+Info: Processing symbol 'C4:Capacitor_SMD:C_1206_3216Metric'.
+Info: Processing symbol 'C5:Capacitor_SMD:C_1206_3216Metric'.
+Info: Processing symbol 'R9:Resistor_SMD:R_1206_3216Metric'.
+Info: Processing symbol 'R8:Resistor_SMD:R_1206_3216Metric'.
+Info: Processing symbol 'C6:Capacitor_SMD:C_1206_3216Metric'.
+Info: Processing symbol 'R7:Resistor_SMD:R_1206_3216Metric'.
+Info: Processing symbol 'R6:Resistor_SMD:R_1206_3216Metric'.
+Info: Processing symbol 'R5:Resistor_SMD:R_1206_3216Metric'.
+Info: Processing symbol 'R4:Resistor_SMD:R_1206_3216Metric'.
+Info: Processing symbol 'R3:Resistor_SMD:R_1206_3216Metric'.
+Info: Processing symbol 'R2:Resistor_SMD:R_1206_3216Metric'.
+Info: Processing symbol 'R1:Resistor_SMD:R_1206_3216Metric'.
+Info: Processing symbol 'C7:Capacitor_SMD:C_1206_3216Metric'.
+Info: Processing symbol 'L1:SRN2510BTA-2R2M:SRN2510BTA2R2M'.
+Info: Processing symbol 'J8:Connector_PinSocket_2.54mm:PinSocket_1x05_P2.54mm_Vertical_SMD_Pin1Left'.
+Info: Processing symbol 'J6:Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical_SMD_Pin1Left'.
+Info: Processing symbol 'J5:myFootprintDesigns:USB-C_PWR'.
+Info: Processing symbol 'J3:Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical_SMD_Pin1Left'.
+Info: Processing symbol 'J2:Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical_SMD_Pin1Left'.
+Info: Processing symbol 'J1:Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical_SMD_Pin1Left'.
+Info: Processing symbol 'D1:IN-S124ARUW:LED_IN-S124ARUW'.
+Info: Processing symbol 'IC1:PAM2401:SOP65P490X110-8N'.
+Reconnected IC1 pin 3 from VBATT to Net-(IC1-VIN).
+Connected C7 pin 2 to GND.
+Add net LED_DATA.
+Reconnected J1 pin 2 from Net-(J1-Pin_2) to LED_DATA.
+Connected C7 pin 1 to +5V.
+Updated C7 properties.
+Updated C7 symbol association from  to /aaa6ea5b-403b-4111-be4f-55c8a439cf0b.
+Added J5 (footprint 'myFootprintDesigns:USB-C_PWR').
+Changed REF** reference designator to J5.
+Changed J5 value from USB-C_PWR to USB_C_Receptacle_PowerOnly_6P.
+Updated J5 symbol association from  to /313a628f-e523-4211-801d-f47782c87484.
+Updated J5 properties.
+Add net Net-(J5-CC1).
+Connected J5 pin A5 to Net-(J5-CC1).
+Connected J5 pin A9 to Net-(U3-V_{DD}).
+Connected J5 pin A12 to GND.
+Add net Net-(J5-CC2).
+Connected J5 pin B5 to Net-(J5-CC2).
+Changed C7 value from C_1206_3216Metric to 22uF.
+Added J6 (footprint 'Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical_SMD_Pin1Left').
+Changed REF** reference designator to J6.
+Changed J6 value from PinHeader_1x03_P2.54mm_Vertical_SMD_Pin1Left to Conn_01x03.
+Updated J6 symbol association from  to /cc5e9cfa-e928-4264-b735-3705385eb68d.
+Updated J6 properties.
+Add net PA_1.
+Connected J6 pin 1 to PA_1.
+Add net PA_2.
+Connected J6 pin 2 to PA_2.
+Add net PA_3.
+Connected J6 pin 3 to PA_3.
+Changed REF** reference designator to C7.
+Added J8 (footprint 'Connector_PinSocket_2.54mm:PinSocket_1x05_P2.54mm_Vertical_SMD_Pin1Left').
+Changed REF** reference designator to J8.
+Changed J8 value from PinSocket_1x05_P2.54mm_Vertical_SMD_Pin1Left to Conn_01x05_Pin.
+Updated J8 symbol association from  to /a5c941a7-82e7-435c-9ba5-a8ea3b5d0ae3.
+Updated J8 properties.
+Connected J8 pin 1 to GND.
+Add net TX.
+Connected J8 pin 2 to TX.
+Add net RX.
+Connected J8 pin 3 to RX.
+Add net UPDI.
+Connected J8 pin 4 to UPDI.
+Connected J8 pin 5 to +5V.
+Added C7 (footprint 'Capacitor_SMD:C_1206_3216Metric').
+Reconnected L1 pin 1 from VBATT to Net-(IC1-VIN).
+Connected C6 pin 2 to GND.
+Changed R1 value from 10k to 1M.
+Add net Send.
+Reconnected R1 pin 1 from Net-(U2-PA5) to Send.
+Reconnected R1 pin 2 from Net-(U2-PA6) to Return.
+Connected C6 pin 1 to +5V.
+Add net Tilt_SW.
+Reconnected R2 pin 2 from Net-(U2-PA7) to Tilt_SW.
+Updated C6 properties.
+Reconnected R3 pin 1 from VBATT to Net-(IC1-VIN).
+Updated C6 symbol association from  to /1a6fa1bd-9f4d-40e3-aad2-769d0811d651.
+Changed C6 value from C_1206_3216Metric to 22uF.
+Changed REF** reference designator to C6.
+Added C6 (footprint 'Capacitor_SMD:C_1206_3216Metric').
+Reconnected R7 pin 1 from Net-(U1-V+) to Net-(U3-V_{DD}).
+Reconnected C5 pin 1 from Net-(U1-V+) to Net-(U3-V_{DD}).
+Added R8 (footprint 'Resistor_SMD:R_1206_3216Metric').
+Changed REF** reference designator to R8.
+Changed R8 value from R_1206_3216Metric to 5.1k.
+Updated R8 symbol association from  to /2a3b3306-2b1f-47dc-9f0e-92f4898f2bf4.
+Updated R8 properties.
+Connected R8 pin 1 to Net-(J5-CC2).
+Connected R8 pin 2 to GND.
+Add net Net-(U3-V_{DD}).
+Added R9 (footprint 'Resistor_SMD:R_1206_3216Metric').
+Changed REF** reference designator to R9.
+Changed R9 value from R_1206_3216Metric to 5.1k.
+Updated R9 symbol association from  to /3f4016df-daa6-43f8-9075-7b56907655ad.
+Updated R9 properties.
+Connected R9 pin 1 to Net-(J5-CC1).
+Connected R9 pin 2 to GND.
+Updated C2 symbol association from /f2f016f0-e33d-4f4f-93c3-e3167ada6333 to /1f779e93-5f75-473e-9afa-ae6fad9b06e3.
+Added R10 (footprint 'Resistor_SMD:R_1206_3216Metric').
+Changed REF** reference designator to R10.
+Changed R10 value from R_1206_3216Metric to 10k.
+Updated R10 symbol association from  to /bb20765d-0209-4473-9338-8d07f0b34927.
+Updated R10 properties.
+Connected R10 pin 1 to +5V.
+Add net RST_SW.
+Connected R10 pin 2 to RST_SW.
+Changed C2 value from 22uF to 0.1uF.
+Added R11 (footprint 'Resistor_SMD:R_1206_3216Metric').
+Changed REF** reference designator to R11.
+Changed R11 value from R_1206_3216Metric to 0.
+Updated R11 symbol association from  to /f047d941-6963-4854-815e-351e46250964.
+Updated R11 properties.
+Connected R11 pin 1 to Net-(IC1-VIN).
+Connected R11 pin 2 to VBATT.
+Reconnected C1 pin 1 from VBATT to Net-(IC1-VIN).
+Added S1 (footprint 'PTS526_SM08_SMTR2_LFS:SW_PTS526_SM08_SMTR2_LFS').
+Changed REF** reference designator to S1.
+Changed S1 value from SW_PTS526_SM08_SMTR2_LFS to PTS526_SM08_SMTR2_LFS.
+Updated S1 symbol association from  to /87c368d1-e28a-492d-950a-39ae2efabe5e.
+Updated S1 properties.
+Connected S1 pin 1 to GND.
+Connected S1 pin 3 to RST_SW.
+Connected S1 pin 2 to GND.
+Connected S1 pin 4 to RST_SW.
+Add net Net-(IC1-VIN).
+Reconnected SW2 pin 1 from Net-(U2-PA7) to Tilt_SW.
+Reconnected B1 pin 1 from Net-(U2-PA6) to Return.
+Add net Batt_M.
+Reconnected U2 pin 2 from Net-(J1-Pin_2) to Batt_M.
+Reconnected U2 pin 3 from Net-(U2-PA5) to Send.
+Reconnected U2 pin 4 from Net-(U2-PA6) to Return.
+Reconnected U2 pin 5 from Net-(U2-PA7) to Tilt_SW.
+Reconnected U2 pin 6 from unconnected-(U2-PB3-Pad6) to RX.
+Reconnected U2 pin 7 from unconnected-(U2-PB2-Pad7) to TX.
+Reconnected U2 pin 8 from unconnected-(U2-PB1-Pad8) to LED_DATA.
+Reconnected U2 pin 9 from unconnected-(U2-PB0-Pad9) to RST_SW.
+Reconnected U2 pin 10 from Net-(J4-Pin_2) to UPDI.
+Reconnected U2 pin 11 from unconnected-(U2-PA1-Pad11) to PA_1.
+Reconnected U2 pin 12 from unconnected-(U2-PA2-Pad12) to PA_2.
+Reconnected U2 pin 13 from unconnected-(U2-PA3-Pad13) to PA_3.
+Add net Return.
+Reconnected U3 pin 4 from Net-(U1-V+) to Net-(U3-V_{DD}).
+Removed unused footprint U1.
+Removed unused footprint J4.
+Removed unused footprint REF**.
+Removed unused footprint REF**.
+Removed unused footprint REF**.
+Removed unused footprint REF**.
+Removed unused footprint REF**.
+Removed unused footprint REF**.
+Removed unused footprint REF**.
+Removed unused net unconnected-(U2-PB3-Pad6).
+Removed unused net unconnected-(U2-PB2-Pad7).
+Removed unused net unconnected-(U2-PB1-Pad8).
+Removed unused net Net-(J1-Pin_2).
+Removed unused net Net-(J4-Pin_2).
+Removed unused net Net-(U1-V+).
+Removed unused net Net-(U2-PA5).
+Removed unused net Net-(U2-PA6).
+Removed unused net Net-(U2-PA7).
+Removed unused net unconnected-(U2-PA1-Pad11).
+Removed unused net unconnected-(U2-PA2-Pad12).
+Removed unused net unconnected-(U2-PA3-Pad13).
+Removed unused net unconnected-(U2-PB0-Pad9).
+Error: J5 pad S1 not found in myFootprintDesigns:USB-C_PWR.
+Error: J5 pad B9 not found in myFootprintDesigns:USB-C_PWR.
+Error: J5 pad B12 not found in myFootprintDesigns:USB-C_PWR.
+
+
+Info: Total warnings: 0, errors: 3.

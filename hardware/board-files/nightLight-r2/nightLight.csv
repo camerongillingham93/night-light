@@ -1,0 +1,18 @@
+mouser,Reference,Qty,Value,Footprint,DNP,,,,,,
+1,B1,1,~,myFootprintDesigns:fireflyTouch,,,,,,,
+2,BT1,1,Battery_Cell,myFootprintDesigns:14500 Holder,,,,,,,
+3,"C1, C2, C3",3,22uF,Capacitor_SMD:C_1206_3216Metric,,,,,,,X
+4,C4,1,10uF,Capacitor_SMD:C_1206_3216Metric,,,,,,,x
+5,C5,1,4.7uF,Capacitor_SMD:C_1206_3216Metric,,,,,,,x
+6,D1,1,IN-S124ARUW,IN-S124ARUW:LED_IN-S124ARUW,,,,,,,x
+7,IC1,1,PAM2401SCADJ,PAM2401:SOP65P490X110-8N,,,,,,,x
+8,"J1, J2, J3, J4",4,Conn_01x03,Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical_SMD_Pin1Left,,,,,,,
+9,L1,1,SRN2510BTA-2R2M,SRN2510BTA-2R2M:SRN2510BTA2R2M,,,,,,,x
+10,"R1, R2, R6",3,10k,Resistor_SMD:R_1206_3216Metric,,,,,,,x
+11,"R3, R4",2,750K,Resistor_SMD:R_1206_3216Metric,,,,,,,x
+12,R5,1,100K,Resistor_SMD:R_1206_3216Metric,,,,,,,x
+13,R7,1,1K,Resistor_SMD:R_1206_3216Metric,,,,,,,x
+14,SW2,1,TILT,Connector_PinHeader_2.54mm:PinHeader_2x01_P2.54mm_Vertical_SMD,,,,,,,
+15,U1,1,USB-C_PWR,myFootprintDesigns:USB-C_PWR,,,,,,,x
+16,U2,1,ATtiny1614-SS,Package_SO:SOIC-14_3.9x8.7mm_P1.27mm,,,,,,,
+17,U3,1,MCP73831-2-OT,Package_TO_SOT_SMD:SOT-23-5,,,,,,,
