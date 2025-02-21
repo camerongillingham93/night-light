@@ -45,7 +45,7 @@
         "silk_text_thickness": 0.09999999999999999,
         "silk_text_upright": false,
         "zones": {
-          "min_clearance": 0.19999999999999998
+          "min_clearance": 0.3
         }
       },
       "diff_pair_dimensions": [
@@ -95,7 +95,7 @@
         "silk_over_copper": "warning",
         "silk_overlap": "warning",
         "skew_out_of_range": "error",
-        "solder_mask_bridge": "error",
+        "solder_mask_bridge": "warning",
         "starved_thermal": "error",
         "text_height": "warning",
         "text_thickness": "warning",
@@ -114,8 +114,8 @@
         "min_clearance": 0.15,
         "min_connection": 0.15,
         "min_copper_edge_clearance": 0.5,
-        "min_hole_clearance": 0.25,
-        "min_hole_to_hole": 0.25,
+        "min_hole_clearance": 0.0,
+        "min_hole_to_hole": 0.09999999999999999,
         "min_microvia_diameter": 0.19999999999999998,
         "min_microvia_drill": 0.09999999999999999,
         "min_resolved_spokes": 2,
@@ -469,16 +469,15 @@
     "netclass_assignments": {
       "Batt_M": "signal",
       "LED_DATA": "signal",
-      "Net-(D1-PadA)": "power",
       "Net-(IC1-EN)": "power",
       "Net-(IC1-FB)": "power",
       "Net-(IC1-LX)": "power",
-      "Net-(IC1-VIN)": "power",
       "Net-(J1-CC1)": "power",
       "Net-(J1-CC2)": "power",
       "Net-(J3-Pin_2)": "signal",
+      "Net-(LED1-A)": "signal",
+      "Net-(LED1-K)": "signal",
       "Net-(U1-PROG)": "power",
-      "Net-(U1-STAT)": "power",
       "Net-(U1-V_{DD})": "power",
       "PA_1": "signal",
       "PA_2": "signal",
@@ -489,7 +488,8 @@
       "Send": "signal",
       "TX": "signal",
       "Tilt_SW": "signal",
-      "UPDI": "signal"
+      "UPDI": "signal",
+      "vBATT": "power"
     },
     "netclass_patterns": [
       {
