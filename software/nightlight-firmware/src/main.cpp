@@ -1,75 +1,22 @@
-#include <Arduino.h>
-#include <tinyNeoPixel.h>
+#include "LEDController.h"
+#include "config.h"
 #include "touch.h"
+#include <Arduino.h>
 
-/*
-February 7 2025
-
-Sketch to test the hardware components of the nightLight PCB.
-
-Uses a modded USB-UART device to flash the AT-tiny 1614, Select Serial UPDI
--SLOW as prgogrammer
-
-Pins must be labelled as "PIN_PA2"
-*/
-
-
-
-#define LED_DATA_PIN PIN_PA4 // Data pin for RGB strand
-#define CONTROL_PIN PIN_PA6
-#define SENSE_PIN PIN_PA5
-
-#define NUMPIXELS 15
-
-tinyNeoPixel pixels =
-    tinyNeoPixel(NUMPIXELS, LED_DATA_PIN, NEO_GRB + NEO_KHZ800);
-
-int sensorThreshold = 700;
-bool toggle = 0;
-bool lastState = 0;
-
-uint16_t senseTouch();
+CapTouch touchSensor(PORTA, sensePin, refPin, ADC_MUXPOS_AIN6_gc,
+                     ADC_MUXPOS_AIN7_gc); // PA6 as electrode, PA7 as reference
+LEDController ledController(LED_PIN, NUM_PIXELS);
 
 void setup() {
-  pixels.begin(); // This initializes the NeoPixel library.
-  Serial.begin(9600);
+  Serial.begin(115200);
+  touchSensor.begin();
+  ledController.begin();
+  ledController.setBrightness(255);
 }
 
 void loop() {
-  Serial.println("Hello CAM");
-  uint16_t sensorValue = senseTouch();
-  Serial.println(sensorValue);
-
-  bool currentState = (sensorValue < sensorThreshold);
-
-  if (currentState && !lastState) {
-    toggle = !toggle;
-    if (toggle) {
-      pixels.setPixelColor(
-          1, pixels.Color(0, 150, 0)); // Moderately bright green color.
-    } else {
-      pixels.clear();
-    }
-    pixels.show();
+  if (touchSensor.isTouched(touchThreshold)) {
+    ledController.toggle();
+    delay(75); // Simple debounce
   }
-
-  lastState = currentState;
-}
-
-uint16_t senseTouch() {
-  pinMode(CONTROL_PIN, OUTPUT);
-  digitalWrite(CONTROL_PIN, LOW); // Discharge through CONTROL_PIN
-
-  pinMode(SENSE_PIN, INPUT);
-  uint16_t count = 0;
-
-  // Charge the pad through the 1MΩ resistor
-  pinMode(CONTROL_PIN, INPUT); // Let it float
-  while (digitalRead(SENSE_PIN) == LOW) {
-    count++;
-    if (count > 1000)
-      break; // Prevent infinite loop
-  }
-
-  return count; // Higher count = more capacitance (finger detected)
 }

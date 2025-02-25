@@ -1,12 +1,23 @@
 #ifndef TOUCH_H
 #define TOUCH_H
 
-#include <Arduino.h>
-#include <avr/io.h>  // Needed for register definitions
+#include <avr/io.h>
+#include <util/delay.h>
 
-#define TOUCH_PIN_INDEX 3  // Adjust to your touch pin
+class CapTouch {
+public:
+  CapTouch(PORT_t &port, uint8_t pin1, uint8_t pin2, ADC_MUXPOS_t adcChannel1,
+           ADC_MUXPOS_t adcChannel2);
+           
+  void begin();
+  uint16_t measure();
+  bool isTouched(uint16_t threshold);
 
-void touch_init();
-uint16_t touch_read();
+private:
+  PORT_t &sensorPort;
+  uint8_t sensorPin1, sensorPin2;
+  ADC_MUXPOS_t adcMuxPos1, adcMuxPos2;
+};
 
-#endif // TOUCH_H
+#endif
+
