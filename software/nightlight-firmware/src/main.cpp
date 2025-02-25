@@ -8,15 +8,18 @@ CapTouch touchSensor(PORTA, sensePin, refPin, ADC_MUXPOS_AIN6_gc,
 LEDController ledController(LED_PIN, NUM_PIXELS);
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
+  delay(3000);
+  Serial.write("HEY CAM I WORK");
+  delay(3000);
   touchSensor.begin();
   ledController.begin();
   ledController.setBrightness(255);
 }
 
 void loop() {
-  if (touchSensor.isTouched(touchThreshold)) {
-    ledController.toggle();
-    delay(75); // Simple debounce
-  }
+  // if (touchSensor.isTouched(touchThreshold)) {
+  //   ledController.toggle();
+  //   delay(75); // Simple debounce
+  // }
 }
