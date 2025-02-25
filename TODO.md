@@ -1,4 +1,22 @@
 # TODO 
+### Febreuary 25, 2025
+## This Time
+1. Build a new board to write firmware with as Serial comms has stopped working with current setup
+    - Just solder MCU and necessary components to test LED's, Touch, And tilt switch
+2. Confirm if the chosen charge controller will work with LIFEP04 batteries
+3. Continue firmware DEV prioritizing writing a reliable touch class
+    - Work on overall flowchart on ferry
+4. see fil on friday and chat
+     - LED strips and USB-C pinout
+5. Continue with PCB review
+## Last Time
+1. Confirmed utilizing PTC will not work without ATmels software and not going to venture down that path
+     - Have been playing arounf with different methods of writing my own touch library with varying levels of success.
+     confident this will be fine
+2. Have been reviewing, will continue
+3. havent been to see fil yet
+4. not necessary at this point
+
 ### February, 21, 2025
 ## THIS TIME
 1. Test PTC and begin writing firmware R1 
