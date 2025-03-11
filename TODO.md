@@ -6,7 +6,8 @@
 - [ ] **Continue firmware development** (focus on touch reliability)  
   - Improve **`CapTouch` class**  
 - [ ] **Confirm charge controller compatibility** with LiFePO4 batteries 
-- [ ] **Continue PCB review**  
+- [x] **Continue PCB review**  
+
 ### Last Time  
 - [x] **Build a new test board** (MCU + essential components)  
   - Test **LEDs, Touch, and Tilt switch**  
