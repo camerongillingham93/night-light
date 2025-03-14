@@ -67,6 +67,6 @@ void loop() {
     // Update LED brightness
     strip.setBrightness(currentBrightness);
 
-    delay(50); // 20Hz update rate - good balance of responsiveness and power
+    //delay(50); // 20Hz update rate - good balance of responsiveness and power
   }
 }
