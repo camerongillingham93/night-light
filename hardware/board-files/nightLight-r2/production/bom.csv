@@ -1,25 +1,25 @@
 ﻿Designator,Footprint,Quantity,Value,LCSC Part #,,
-B1,fireflyTouch,1,~,,,
-BT1,14500 Holder,1,Battery_Cell,,,
-"C1, C5, C6",0805,3,22uF,,,
-"C2, C4",0805,2,4.7uF,,,
-C7,0805,1,0.1uF,,,
-FID1,Fiducial_1.5mm_Mask3mm,1,Fiducial,,,
+B1,fireflyTouch,1,~,,,X
+BT1,14500 Holder,1,Battery_Cell,,,X
+"C1, C5, C6",0805,3,22uF,,,X
+"C2, C4",0805,2,4.7uF,,,X
+C7,0805,1,0.1uF,,,X
+FID1,Fiducial_1.5mm_Mask3mm,1,Fiducial,,,X
 IC1,SOP65P490X110-8N,1,PAM2401SCADJ,,,X
-IC2,SON50P300X300X100-11N-D,1,MCP73123T-22SI_MF,,,
-J1,USB-C_PWR,1,USB_C_Receptacle_PowerOnly_6P,,,
-"J2, J3, J4",PinHeader_1x03_P2.54mm_Vertical_SMD_Pin1Left,3,Conn_01x03,,,
-J5,spares_1*3,1,Conn_01x03,,,
-J6,PinSocket_1x05_P2.54mm_Vertical_SMD_Pin1Left,1,Conn_01x05_Pin,,,
+IC2,SON50P300X300X100-11N-D,1,MCP73123T-22SI_MF,,,X
+J1,USB-C_PWR,1,USB_C_Receptacle_PowerOnly_6P,,,X
+"J2, J3, J4",PinHeader_1x03_P2.54mm_Vertical_SMD_Pin1Left,3,Conn_01x03,,,X
+J5,spares_1*3,1,Conn_01x03,,,X
+J6,PinSocket_1x05_P2.54mm_Vertical_SMD_Pin1Left,1,Conn_01x05_Pin,,,X
 L1,SRN2510BTA2R2M,1,SRN2510BTA-2R2M,,,X
-LED1,INS124ARUW,1,IN-S124ARUW,,,
-"R10, R9",0805,2,0,,,
+LED1,INS124ARUW,1,IN-S124ARUW,,,X
+"R10, R9",0805,2,0,,,X
 "R11, R12",0805,2,10k,,,X
 R13,0805,1,1M,,,X
 "R2, R4, R5",0805,3,5.1k,,,X
-"R3, R7",0805,2,750K,,,
+"R3, R7",0805,2,750K,,,X
 R6,0805,1,1K,,,X
-R8,0805,1,100K,,,
-S1,SW_PTS526_SM08_SMTR2_LFS,1,PTS526_SM08_SMTR2_LFS,,,
-SW1,PinHeader_2x01_P2.54mm_Vertical_SMD,1,TILT,,,
+R8,0805,1,100K,,,X
+S1,SW_PTS526_SM08_SMTR2_LFS,1,PTS526_SM08_SMTR2_LFS,,,X
+SW1,PinHeader_2x01_P2.54mm_Vertical_SMD,1,TILT,,,X
 U2,SOIC-14_3.9x8.7mm_P1.27mm,1,ATtiny1614-SS,,,X

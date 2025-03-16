@@ -1,5 +1,29 @@
 # Nightlight Project - To-Do List 
 
+## March 15, 2025
+### This Time
+- [ ] **Continue firmware development**
+  - Refactor things into a "controls class" and add shaking functionality along with designing the firefly light show
+- [ ] **Continue PCB review** 
+  - Eliminate all errors and continue to look things over for potential improvements
+  - Prep Fabrication files for odering
+  - Find any ways to lower order cost (coupons, vias price,quanity)
+- [ ] Finish prepping mouser order
+
+
+### Last Time
+- [X] **Continue firmware development** (focus on touch reliability)  
+  - Improve **`CapTouch` class**  
+  - _Got to the point where toggling the LEDS with the touch button is wrking well along with long presses_
+- [x] **Confirm charge controller compatibility** with LiFePO4 batteries
+  -_Did not work, decided to re-design with a  new charge controller designed for LIFEPO4_
+- [x] **Continue PCB review**  
+  - _Made a mistake and had components too close to PCB edge, had to redo layout_
+    - _Moved components outside of area surrouding perimeter_
+    - _Improved grounding by adding a Bottom Copper pour and dropping vias thoughout PCB, also made a keepout zone beneath the elctrode and kept traces to the elctrode as short as possible_
+    - _Added a PPTC fuse between battery and regulator_
+
+
 ## March 11, 2025
 
 ### This Time
