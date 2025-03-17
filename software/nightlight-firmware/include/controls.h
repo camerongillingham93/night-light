@@ -1,5 +1,5 @@
-#ifndef CAP_TOUCH_H
-#define CAP_TOUCH_H
+#ifndef CONTROLS_H
+#define CONTROLS_H
 
 #include <Arduino.h>
 
@@ -33,6 +33,25 @@ private:
   unsigned long _longPressThreshold = 1000; // 1 second default
   bool _longPressDetected = false;
   bool _shortPressDetected = false;
+};
+
+class Shake {
+  private:
+    uint8_t _tiltSWPin;
+    // State Tracking
+    bool _previousTiltState;
+    uint8_t _shakeCount;
+    // Timing
+    unsigned long _shakeStartTime;
+    unsigned long _lastChangeTime;
+    // Config
+    uint8_t _minShakeCount;
+    unsigned long _shakeTimeWindow;
+
+  public:
+    Shake(uint8_t tiltSWpin);
+    void begin();
+    bool detectShake();
 };
 
 #endif

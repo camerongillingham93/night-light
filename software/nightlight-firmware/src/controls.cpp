@@ -1,5 +1,8 @@
-#include "CapTouch.h"
+#include "controls.h"
 #include <Arduino.h>
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ TOUCH CLASS
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 CapTouch::CapTouch(uint8_t sensePin, uint8_t referencePin, uint16_t threshold,
                    uint8_t debounceCount) {
@@ -114,3 +117,57 @@ bool CapTouch::isLongPress() {
 }
 
 void CapTouch::setLongPressTime(unsigned long ms) { _longPressThreshold = ms; }
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SHAKE CLASS
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Shake::Shake(uint8_t tiltSWpin) {
+  _tiltSWPin = tiltSWpin;
+
+  // Initialize state tracking
+  _previousTiltState = false;
+  _shakeCount = 0;
+
+  // Initialize timing variables
+  _shakeStartTime = 0;
+  _lastChangeTime = 0;
+
+  // Default configuration
+  _minShakeCount = 5; //
+  _shakeTimeWindow = 1000;
+}
+
+void Shake::begin() { pinMode(_tiltSWPin, INPUT); }
+
+bool Shake::detectShake() {
+
+  bool tiltState = !digitalRead(_tiltSWPin); // NORMAL = 0, TILTED = 1
+  unsigned long currentTime = millis();
+
+  if (tiltState != _previousTiltState) {
+    _lastChangeTime = currentTime;
+
+    if (_shakeCount == 0) // Fist state change, start timer
+    {
+      _shakeStartTime = currentTime;
+    }
+    _shakeCount++;
+    _previousTiltState = tiltState;
+  }
+
+  // Check if we've reached the shake threshold within the time window
+  if (_shakeCount >= _minShakeCount) {
+    // Shake detected - reset counters and return true
+    _shakeCount = 0;
+    return true;
+  }
+
+  // Check if we've exceeded the time window without enough changes
+  if (_shakeCount > 0 && (currentTime - _shakeStartTime > _shakeTimeWindow)) {
+    // Time window expired without enough changes - reset counters
+    _shakeCount = 0;
+  }
+
+  // No shake detected yet
+  return false;
+}

@@ -6,6 +6,7 @@
 // Touch Sensor Pins and Threshold
 #define sensePin PIN_PA6
 #define refPin PIN_PA5
+#define tiltSW PIN_PA7
 #define touchThreshold 80
 
 // NeoPixel LED Strip Setup
