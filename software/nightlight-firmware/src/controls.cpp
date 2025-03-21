@@ -13,6 +13,15 @@ CapTouch::CapTouch(uint8_t sensePin, uint8_t referencePin, uint16_t threshold,
   _touchState = false;
   _debounceCounter = 0;
   _lastMeasurement = 0;
+  _longPressDetected = false;
+  _shortPressDetected = false;
+
+  // Default brightness settings
+  _currentBrightness = 255;
+  _brightnessIncreasing = false;
+  _minBrightness = 10;
+  _maxBrightness = 255;
+  _brightnessStep = 10;
 }
 
 void CapTouch::begin() {
@@ -118,6 +127,45 @@ bool CapTouch::isLongPress() {
 
 void CapTouch::setLongPressTime(unsigned long ms) { _longPressThreshold = ms; }
 
+// New brightness control methods
+void CapTouch::configureBrightness(uint8_t minBrightness, uint8_t maxBrightness,
+                                   uint8_t step) {
+  _minBrightness = minBrightness;
+  _maxBrightness = maxBrightness;
+  _brightnessStep = step;
+  _currentBrightness = maxBrightness; // Start at max brightness
+}
+
+uint8_t CapTouch::adjustBrightness() {
+  // Adjust direction at min/max values
+  if (_currentBrightness <= _minBrightness) {
+    _brightnessIncreasing = true;
+  } else if (_currentBrightness >= _maxBrightness) {
+    _brightnessIncreasing = false;
+  }
+
+  // Adjust brightness based on direction
+  if (_brightnessIncreasing) {
+    // Ensure we don't exceed MAX_BRIGHTNESS
+    if (_currentBrightness <= _maxBrightness - _brightnessStep) {
+      _currentBrightness += _brightnessStep;
+    } else {
+      _currentBrightness = _maxBrightness;
+    }
+  } else {
+    // Ensure we don't go below MIN_BRIGHTNESS
+    if (_currentBrightness >= _minBrightness + _brightnessStep) {
+      _currentBrightness -= _brightnessStep;
+    } else {
+      _currentBrightness = _minBrightness;
+    }
+  }
+
+  return _currentBrightness;
+}
+
+uint8_t CapTouch::getCurrentBrightness() { return _currentBrightness; }
+
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SHAKE CLASS
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -133,21 +181,20 @@ Shake::Shake(uint8_t tiltSWpin) {
   _lastChangeTime = 0;
 
   // Default configuration
-  _minShakeCount = 5; //
-  _shakeTimeWindow = 1000;
+  _minShakeCount = 2;
+  _shakeTimeWindow = 1200;
 }
 
 void Shake::begin() { pinMode(_tiltSWPin, INPUT); }
 
 bool Shake::detectShake() {
-
   bool tiltState = !digitalRead(_tiltSWPin); // NORMAL = 0, TILTED = 1
   unsigned long currentTime = millis();
 
   if (tiltState != _previousTiltState) {
     _lastChangeTime = currentTime;
 
-    if (_shakeCount == 0) // Fist state change, start timer
+    if (_shakeCount == 0) // First state change, start timer
     {
       _shakeStartTime = currentTime;
     }
@@ -170,4 +217,10 @@ bool Shake::detectShake() {
 
   // No shake detected yet
   return false;
+}
+
+void Shake::setShakeThreshold(uint8_t count) { _minShakeCount = count; }
+
+void Shake::setShakeWindow(unsigned long milliseconds) {
+  _shakeTimeWindow = milliseconds;
 }
