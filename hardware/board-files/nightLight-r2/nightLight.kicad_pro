@@ -35,8 +35,8 @@
         "other_text_upright": false,
         "pads": {
           "drill": 0.0,
-          "height": 5.0,
-          "width": 5.0
+          "height": 1.5,
+          "width": 1.5
         },
         "silk_line_width": 0.09999999999999999,
         "silk_text_italic": false,
@@ -55,7 +55,25 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [],
+      "drc_exclusions": [
+        "clearance|150000000|91500000|0d6388b2-b89e-4851-b128-eee1060ed043|795c9c78-a6f6-4be7-a932-c2373500bf3f",
+        "footprint_type_mismatch|139000000|131000000|7747aec4-66b8-407b-ba0b-18d1c15d6a7a|00000000-0000-0000-0000-000000000000",
+        "footprint_type_mismatch|150000000|100000000|f38ab6e9-067e-4c65-875a-73eb779e18ab|00000000-0000-0000-0000-000000000000",
+        "lib_footprint_mismatch|173637750|85000000|77fa0004-4b7b-47a0-a4b8-a092e6ff60e4|00000000-0000-0000-0000-000000000000",
+        "silk_edge_clearance|192376169|103241954|d1d00aed-eea3-42b0-9853-401455030554|475c815e-15a0-404a-800b-4dd5a979de2a",
+        "silk_edge_clearance|192454785|98040104|d1d00aed-eea3-42b0-9853-401455030554|01a48545-4df9-4c39-ad59-5916bbcc8379",
+        "silk_edge_clearance|192485477|101110965|d1d00aed-eea3-42b0-9853-401455030554|99518fc3-0710-4e0e-9ba6-04d93d58c611",
+        "silk_over_copper|116199194|104389887|731fb6a0-90f2-4f46-a8aa-a3545a8c3bba|00000000-0000-0000-0000-000000000000",
+        "silk_over_copper|126526620|88569018|c1fc22eb-b37d-4218-8e08-e7d78d0d9420|00000000-0000-0000-0000-000000000000",
+        "silk_over_copper|130793884|128526701|0a9d2611-de8b-440f-90c1-bf5b6b272b9f|00000000-0000-0000-0000-000000000000",
+        "silk_over_copper|149296356|104750000|3e8fb20e-05e2-4dd6-9ba9-39ce3fd9ed6d|00000000-0000-0000-0000-000000000000",
+        "silk_over_copper|149546472|92000000|7c4dc5a5-df27-497e-a60a-e0dcd451ea27|00000000-0000-0000-0000-000000000000",
+        "silk_over_copper|156734127|67069076|7d8aaff1-90c7-4a88-8d91-f922c9adb94d|00000000-0000-0000-0000-000000000000",
+        "silk_over_copper|168119655|120300958|01e30e5d-ddb5-45d6-9276-c267eddefbd0|00000000-0000-0000-0000-000000000000",
+        "silk_over_copper|168459363|84475696|c3e445df-280a-4acb-a6e4-8d9d2a1562e8|00000000-0000-0000-0000-000000000000",
+        "silk_over_copper|173929015|102780756|47b01882-138f-4ff1-a6b7-5d1dd0bed0e4|00000000-0000-0000-0000-000000000000",
+        "silk_overlap|135823809|84109800|ab43d549-6fbe-4cc9-b436-c844b2441af1|fa17409b-ab8b-440f-bc34-cc303163564e"
+      ],
       "meta": {
         "version": 2
       },
@@ -486,6 +504,7 @@
       "TX": "signal",
       "Tilt_SW": "signal",
       "UPDI": "signal",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "VBATT": "power",
@@ -496,6 +515,9 @@
 =======
       "vBATT": "power"
 >>>>>>> Stashed changes
+=======
+      "vBATT": "power"
+>>>>>>> parent of ad9992a (messing around during testing)
     },
     "netclass_patterns": [
       {
