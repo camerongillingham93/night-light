@@ -505,6 +505,7 @@
       "Tilt_SW": "signal",
       "UPDI": "signal",
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "VBATT": "power",
@@ -515,6 +516,9 @@
 =======
       "vBATT": "power"
 >>>>>>> Stashed changes
+=======
+      "vBATT": "power"
+>>>>>>> parent of ad9992a (messing around during testing)
 =======
       "vBATT": "power"
 >>>>>>> parent of ad9992a (messing around during testing)

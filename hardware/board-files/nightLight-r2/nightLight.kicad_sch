@@ -1370,6 +1370,7 @@
     (uuid 8924c7b0-e81d-4d8d-8db4-13a0a948c1a0)
   )
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
   (junction (at 124.46 128.27) (diameter 0) (color 0 0 0 0)
@@ -1381,6 +1382,9 @@
   )
   (junction (at 114.3 121.92) (diameter 0) (color 0 0 0 0)
 >>>>>>> Stashed changes
+=======
+  (junction (at 114.3 121.92) (diameter 0) (color 0 0 0 0)
+>>>>>>> parent of ad9992a (messing around during testing)
 =======
   (junction (at 114.3 121.92) (diameter 0) (color 0 0 0 0)
 >>>>>>> parent of ad9992a (messing around during testing)
@@ -1399,6 +1403,7 @@
     (uuid ce3490d7-754a-442d-8be1-7b24ba92167d)
   )
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
   (junction (at 52.07 142.24) (diameter 0) (color 0 0 0 0)
@@ -1410,6 +1415,12 @@
 >>>>>>> Stashed changes
   (junction (at 104.14 138.43) (diameter 0) (color 0 0 0 0)
 >>>>>>> Stashed changes
+=======
+  (junction (at 41.91 135.89) (diameter 0) (color 0 0 0 0)
+    (uuid d65b9ee6-5f2f-49f8-a07c-906894eeee2c)
+  )
+  (junction (at 104.14 138.43) (diameter 0) (color 0 0 0 0)
+>>>>>>> parent of ad9992a (messing around during testing)
 =======
   (junction (at 41.91 135.89) (diameter 0) (color 0 0 0 0)
     (uuid d65b9ee6-5f2f-49f8-a07c-906894eeee2c)
@@ -1492,9 +1503,13 @@
     (uuid 1ad97a24-39f4-43a2-9739-2422ab6bade2)
   )
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
   (wire (pts (xy 52.07 104.14) (xy 52.07 111.76))
+=======
+  (wire (pts (xy 41.91 114.3) (xy 41.91 135.89))
+>>>>>>> parent of ad9992a (messing around during testing)
 =======
   (wire (pts (xy 41.91 114.3) (xy 41.91 135.89))
 >>>>>>> parent of ad9992a (messing around during testing)
@@ -1546,9 +1561,12 @@
     (uuid 381a8f95-be2f-47ac-8abf-f96555245165)
   )
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< Updated upstream
   (wire (pts (xy 173.99 111.125) (xy 173.99 113.03))
 =======
+=======
+>>>>>>> parent of ad9992a (messing around during testing)
 =======
 >>>>>>> parent of ad9992a (messing around during testing)
   (wire (pts (xy 62.23 133.35) (xy 64.77 133.35))
@@ -1556,12 +1574,16 @@
     (uuid 39a83080-3b3e-47d8-8745-e070f2013002)
   )
 <<<<<<< HEAD
+<<<<<<< HEAD
   (wire (pts (xy 41.91 128.27) (xy 41.91 135.89))
     (stroke (width 0) (type default))
     (uuid 3a4a546a-dbac-4b36-b3e2-815bfcac314e)
   )
   (wire (pts (xy 168.91 115.57) (xy 168.91 117.475))
 >>>>>>> Stashed changes
+=======
+  (wire (pts (xy 168.91 115.57) (xy 168.91 117.475))
+>>>>>>> parent of ad9992a (messing around during testing)
 =======
   (wire (pts (xy 168.91 115.57) (xy 168.91 117.475))
 >>>>>>> parent of ad9992a (messing around during testing)
@@ -1773,6 +1795,7 @@
     (uuid a78fb32a-ffb0-4867-996c-a23083fa96b2)
   )
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
   (wire (pts (xy 107.95 128.27) (xy 114.3 128.27))
@@ -1785,6 +1808,9 @@
   )
   (wire (pts (xy 97.79 121.92) (xy 104.14 121.92))
 >>>>>>> Stashed changes
+=======
+  (wire (pts (xy 97.79 121.92) (xy 104.14 121.92))
+>>>>>>> parent of ad9992a (messing around during testing)
 =======
   (wire (pts (xy 97.79 121.92) (xy 104.14 121.92))
 >>>>>>> parent of ad9992a (messing around during testing)
@@ -2200,6 +2226,7 @@
     )
   )
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
   (global_label "VBATT" (shape input) (at 52.07 104.14 90) (fields_autoplaced)
@@ -2218,6 +2245,12 @@
     (uuid f9c12659-4e60-4218-8f4e-4db3fcc311c8)
     (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 41.91 99.5824 90)
 >>>>>>> Stashed changes
+=======
+  (global_label "VBATT" (shape input) (at 41.91 114.3 90) (fields_autoplaced)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid f9c12659-4e60-4218-8f4e-4db3fcc311c8)
+    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 41.91 105.9324 90)
+>>>>>>> parent of ad9992a (messing around during testing)
 =======
   (global_label "VBATT" (shape input) (at 41.91 114.3 90) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify left))
@@ -3434,6 +3467,7 @@
   )
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
   (symbol (lib_id "PTS526_SM08_SMTR2_LFS:PTS526_SM08_SMTR2_LFS") (at 224.79 136.525 90) (unit 1)
@@ -3535,6 +3569,14 @@
     (property "Reference" "S1" (at 220.98 144.145 90)
       (effects (font (size 1.27 1.27)) (justify right))
     )
+=======
+  (symbol (lib_id "PTS526_SM08_SMTR2_LFS:PTS526_SM08_SMTR2_LFS") (at 219.71 144.145 90) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid 87c368d1-e28a-492d-950a-39ae2efabe5e)
+    (property "Reference" "S1" (at 220.98 144.145 90)
+      (effects (font (size 1.27 1.27)) (justify right))
+    )
+>>>>>>> parent of ad9992a (messing around during testing)
     (property "Value" "PTS526_SM08_SMTR2_LFS" (at 214.63 144.145 0)
       (effects (font (size 1.27 1.27)) hide)
     )

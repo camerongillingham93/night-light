@@ -65,7 +65,11 @@
       40
     ],
 <<<<<<< HEAD
+<<<<<<< HEAD
     "visible_layers": "fffffff_ffffffff",
+=======
+    "visible_layers": "fffff3b_ffffffff",
+>>>>>>> parent of ad9992a (messing around during testing)
 =======
     "visible_layers": "fffff3b_ffffffff",
 >>>>>>> parent of ad9992a (messing around during testing)
