@@ -18,7 +18,7 @@ void setup() {
   delay(100); // Short delay for serial to initialize
 
   // Initialize the touch sensor
-  touchSensor.begin();
+  touchSensor.begin(sensePin, refPin); // Corrected: Pass both pins
   // Set the long press detection time (milliseconds)
   touchSensor.setLongPressTime(800); // 0.8 seconds for long press
 
@@ -50,7 +50,8 @@ void loop() {
   }
 
   // Normal control flow when no special effect is running
-  uint16_t rawValue = touchSensor.measure();
+  uint16_t rawValue =
+      touchSensor.measure(sensePin, refPin); // Corrected: Pass both pins
   bool currentlyTouched = touchSensor.isTouched();
 
   // Process different types of touches

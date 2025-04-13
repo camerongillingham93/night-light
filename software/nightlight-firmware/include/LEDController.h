@@ -1,7 +1,7 @@
 #ifndef LED_CONTROLLER_H
 #define LED_CONTROLLER_H
 
-#include <Arduino.h>
+//#include <Arduino.h>
 #include <tinyNeoPixel.h>
 
 class LEDController {
