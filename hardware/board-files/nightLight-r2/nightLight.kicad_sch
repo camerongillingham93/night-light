@@ -1423,8 +1423,11 @@
     (uuid 8924c7b0-e81d-4d8d-8db4-13a0a948c1a0)
   )
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   (junction (at 124.46 128.27) (diameter 0) (color 0 0 0 0)
 =======
+=======
+>>>>>>> Stashed changes
   (junction (at 41.91 135.89) (diameter 0) (color 0 0 0 0)
     (uuid 9f48449f-c124-42c7-83d9-3c6cd94d825d)
   )
@@ -1445,11 +1448,14 @@
     (uuid ce3490d7-754a-442d-8be1-7b24ba92167d)
   )
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   (junction (at 52.07 142.24) (diameter 0) (color 0 0 0 0)
     (uuid d65b9ee6-5f2f-49f8-a07c-906894eeee2c)
   )
   (junction (at 114.3 144.78) (diameter 0) (color 0 0 0 0)
 =======
+=======
+>>>>>>> Stashed changes
   (junction (at 104.14 138.43) (diameter 0) (color 0 0 0 0)
 >>>>>>> Stashed changes
     (uuid deeae83f-583c-4aa0-bc76-8a9a010c4333)
@@ -1528,10 +1534,13 @@
     (uuid 1ad97a24-39f4-43a2-9739-2422ab6bade2)
   )
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   (wire (pts (xy 52.07 104.14) (xy 52.07 111.76))
     (stroke (width 0) (type default))
     (uuid 1b9249bd-2852-465a-af2c-befd9bc81bc6)
   )
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
   (wire (pts (xy 62.23 67.31) (xy 62.23 77.47))
@@ -1803,8 +1812,11 @@
     (uuid a78fb32a-ffb0-4867-996c-a23083fa96b2)
   )
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   (wire (pts (xy 107.95 128.27) (xy 114.3 128.27))
 =======
+=======
+>>>>>>> Stashed changes
   (wire (pts (xy 41.91 107.95) (xy 41.91 110.49))
     (stroke (width 0) (type default))
     (uuid a957f14e-ce8a-4cf6-82c4-b11eb61999f7)
@@ -2241,10 +2253,17 @@
     )
   )
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   (global_label "VBATT" (shape input) (at 52.07 104.14 90) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify left))
     (uuid f9c12659-4e60-4218-8f4e-4db3fcc311c8)
     (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 52.07 95.7724 90)
+=======
+  (global_label "VBATT" (shape input) (at 41.91 107.95 90) (fields_autoplaced)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid f9c12659-4e60-4218-8f4e-4db3fcc311c8)
+    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 41.91 99.5824 90)
+>>>>>>> Stashed changes
 =======
   (global_label "VBATT" (shape input) (at 41.91 107.95 90) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify left))
@@ -3541,12 +3560,59 @@
   )
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   (symbol (lib_id "PTS526_SM08_SMTR2_LFS:PTS526_SM08_SMTR2_LFS") (at 224.79 136.525 90) (unit 1)
 =======
+=======
+>>>>>>> Stashed changes
   (symbol (lib_id "MF-FSML100_8-2:MF-FSML100_8-2") (at 41.91 128.27 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 85a052c0-ef2c-4638-b53a-c8250e157143)
     (property "Reference" "F1" (at 36.83 115.57 90)
+<<<<<<< Updated upstream
+=======
+      (effects (font (size 1.27 1.27)) (justify right))
+    )
+    (property "Value" "MF-FSML100_8-2" (at 22.86 118.11 90)
+      (effects (font (size 1.27 1.27)) (justify right) hide)
+    )
+    (property "Footprint" "PPTC:FUSC1608X70N" (at 138.1 114.3 0)
+      (effects (font (size 1.27 1.27)) (justify left top) hide)
+    )
+    (property "Datasheet" "https://www.mouser.in/datasheet/2/54/bourns_05032019_MF-FSML-X_datasheet-1591429.pdf" (at 238.1 114.3 0)
+      (effects (font (size 1.27 1.27)) (justify left top) hide)
+    )
+    (property "Height" "0.7" (at 438.1 114.3 0)
+      (effects (font (size 1.27 1.27)) (justify left top) hide)
+    )
+    (property "Mouser Part Number" "652-MF-FSML100/8-2" (at 538.1 114.3 0)
+      (effects (font (size 1.27 1.27)) (justify left top) hide)
+    )
+    (property "Mouser Price/Stock" "https://www.mouser.co.uk/ProductDetail/Bourns/MF-FSML100-8-2?qs=EBDBlbfErPzIwKpEUXHByQ%3D%3D" (at 638.1 114.3 0)
+      (effects (font (size 1.27 1.27)) (justify left top) hide)
+    )
+    (property "Manufacturer_Name" "Bourns" (at 738.1 114.3 0)
+      (effects (font (size 1.27 1.27)) (justify left top) hide)
+    )
+    (property "Manufacturer_Part_Number" "MF-FSML100/8-2" (at 838.1 114.3 0)
+      (effects (font (size 1.27 1.27)) (justify left top) hide)
+    )
+    (pin "2" (uuid e11dc09f-21ce-4781-a711-26803a6be19d))
+    (pin "1" (uuid 241d5149-2c4a-41be-8c57-2d1934cb0c22))
+    (instances
+      (project "nightLight"
+        (path "/203033dd-6a13-4262-9a98-8b29445e90e8"
+          (reference "F1") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "PTS526_SM08_SMTR2_LFS:PTS526_SM08_SMTR2_LFS") (at 219.71 144.145 90) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid 87c368d1-e28a-492d-950a-39ae2efabe5e)
+    (property "Reference" "S1" (at 220.98 144.145 90)
+>>>>>>> Stashed changes
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "MF-FSML100_8-2" (at 22.86 118.11 90)

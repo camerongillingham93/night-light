@@ -487,8 +487,12 @@
       "Tilt_SW": "signal",
       "UPDI": "signal",
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       "VBATT": "power",
       "~{RST}": "power"
+=======
+      "vBATT": "power"
+>>>>>>> Stashed changes
 =======
       "vBATT": "power"
 >>>>>>> Stashed changes
