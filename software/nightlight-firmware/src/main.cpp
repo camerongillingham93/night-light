@@ -4,27 +4,29 @@
 #include <Arduino.h>
 
 // Create sensor: sense pin, reference pin, threshold, debounce count
-CapTouch touchSensor(sensePin, refPin, touchThreshold, 3);
+TouchSensor touchSensor(sensePin, refPin, touchThreshold, 5);
 LEDController strip(LED_PIN, NUM_PIXELS);
 Shake shake(tiltSW);
 
-// State variables
-bool longPressActive = false;
-unsigned long effectStartTime = 0;
-const unsigned long EFFECT_DURATION = 3000; // Effect runs for 3 seconds
+// Variables for touch detection
+bool lastTouchState = false;
+bool currentTouchState = false;
+unsigned long lastDebounceTime = 0;
+unsigned long debounceDelay = 10; // Debounce time in milliseconds
+
+// Flag to track if we're in low battery mode
+bool inLowBatteryMode = false;
 
 void setup() {
   Serial.begin(9600);
   delay(100); // Short delay for serial to initialize
 
-  // Initialize the touch sensor
-  touchSensor.begin(sensePin, refPin); // Corrected: Pass both pins
-  // Set the long press detection time (milliseconds)
-  touchSensor.setLongPressTime(800); // 0.8 seconds for long press
+  // Initialize touch sensor
+  touchSensor.begin();
 
-  // Configure brightness control
-  touchSensor.configureBrightness(MIN_BRIGHTNESS, MAX_BRIGHTNESS,
-                                  BRIGHTNESS_STEP);
+  // Initial calibration - hold for 1 second to get baseline
+  delay(1000);
+  touchSensor.calibrate(10);
 
   // Initialize the LED strip
   strip.begin();
@@ -34,62 +36,117 @@ void setup() {
 }
 
 void loop() {
-  // First, check if a special effect is already running
-  if (strip.isEffectRunning()) {
-    // Let the LED controller handle the effect animation
-    strip.updateSpecialEffect();
+  uint16_t rawADC = analogRead(battMeasure);
+  float batteryVoltage = (rawADC / 1023.0) * 5 * 2;
 
-    // Check if the effect should end
-    if (millis() - effectStartTime > EFFECT_DURATION) {
-      strip.stopSpecialEffect();
-      Serial.println("Special effect complete");
+  // Serial.print("Battery Voltage: ");
+  // Serial.print(batteryVoltage, 2);
+  // Serial.println(" V");
+
+  // Update touch sensor state for long press detection
+  touchSensor.update();
+
+  // Check if the electrode is touched - declare outside if/else for scope
+  bool isTouched = touchSensor.isTouched();
+
+  // Check for long press and adjust brightness if active
+  if (touchSensor.isLongPress() && batteryVoltage > 2.8) {
+    // Serial.println("-------------------------");
+    // Serial.println("LONG PRESS DETECTED");
+
+    // Print current state before changes
+    // Serial.print("LED state before: ");
+    // Serial.println(strip.getState() ? "ON" : "OFF");
+    // Serial.print("Current brightness before: ");
+    //Serial.println(strip.brightness);
+
+    // Ensure lights are on when adjusting brightness
+    if (!strip.getState()) {
+      //Serial.println("Turning LEDs ON for brightness adjustment");
+      strip.setState(true);
+    } else {
+      //Serial.println("LEDs already ON");
     }
 
-    // Skip other controls while effect is running
-    return;
+    // Get brightness value
+    uint8_t wavebrightness = touchSensor.getTriangleWaveBrightness();
+    // Serial.print("New brightness value: ");
+    // Serial.println(wavebrightness);
+
+    // Update brightness
+    strip.setBrightness(wavebrightness);
+
+    // Print state after changes
+    // Serial.print("LED state after: ");
+    // Serial.println(strip.getState() ? "ON" : "OFF");
+    // Serial.println("-------------------------");
   }
 
-  // Normal control flow when no special effect is running
-  uint16_t rawValue =
-      touchSensor.measure(sensePin, refPin); // Corrected: Pass both pins
-  bool currentlyTouched = touchSensor.isTouched();
+    // Check battery voltage and set low battery mode flag
+    if (batteryVoltage <= 2.8) {
+      // If we just entered low battery mode, turn off the lights
+      if (!inLowBatteryMode) {
+        inLowBatteryMode = true;
+        strip.setState(
+            false); // Make sure lights are off when entering low battery mode
+        strip.lowBattery();
+      }
 
-  // Process different types of touches
-  if (touchSensor.isShortPress()) {
-    Serial.println("Short press - LED toggled");
-    strip.toggle();
-  }
+      // Debounce the touch reading
+      if (isTouched != lastTouchState) {
+        lastDebounceTime = millis();
+      }
 
-  // Handle long press (adjust brightness)
-  if (touchSensor.isLongPress()) {
-    Serial.println("Long press detected - changing brightness");
-    uint8_t newBrightness = touchSensor.adjustBrightness();
-    Serial.print("Setting brightness to: ");
-    Serial.println(newBrightness);
-    strip.setBrightness(newBrightness);
-    longPressActive = true;
-  }
+      // Only flash low battery warning if debounce time has passed
+      if ((millis() - lastDebounceTime) > debounceDelay) {
+        if (isTouched != currentTouchState) {
+          currentTouchState = isTouched;
+          if (isTouched == true) {
+            strip.lowBattery(); // Just show low battery warning
+            // Don't turn lights back on afterward
+          }
+        }
+      }
+    } else { // Normal operation (battery > 2.8V)
+      // Clear low battery mode flag if we're returning from low battery state
+      if (inLowBatteryMode) {
+        inLowBatteryMode = false;
+        // Keep lights off when coming out of low battery mode, until user turns
+        // them on
+      }
 
-  // Update longPressActive state based on touch state
-  if (!currentlyTouched) {
-    longPressActive = false;
-  }
+      // Debounce the touch reading
+      if (isTouched != lastTouchState) {
+        lastDebounceTime = millis();
+      }
 
-  // Check for shake
-  if (shake.detectShake()) {
-    Serial.println("Shake detected!");
-    Serial.print("longPressActive status: ");
-    Serial.println(longPressActive ? "true" : "false");
+      // Only change LED state if debounce time has passed
+      if ((millis() - lastDebounceTime) > debounceDelay) {
+        if (isTouched != currentTouchState) {
+          currentTouchState = isTouched;
 
-    // Check for combined long-press + shake gesture
-    if (longPressActive) {
-      Serial.println("Special effect triggered! (Long press + shake)");
-      // Start the special effect
-      strip.startSpecialEffect();
-      effectStartTime = millis();
+          // Only toggle if touch ended (released) AND it was NOT a long press
+          if (isTouched == false && touchSensor.wasLongPress() == false) {
+            strip.toggle();
+          }
+        }
+      }
     }
-  }
 
-  // Short delay for stability
-  delay(10);
-}
+    // Update last touch state
+    lastTouchState = isTouched;
+
+    // Optional: Uncomment for serial debugging if needed
+    // Serial.print("Raw: ");
+    // Serial.print(touchSensor.getLastReading());
+    // Serial.print(" Baseline: ");
+    // Serial.print(touchSensor.getBaseline());
+    // Serial.print(" Touched: ");
+    // Serial.println(isTouched ? "YES" : "NO");
+    // Serial.print("Long Press: ");
+    // Serial.println(touchSensor.isLongPress() ? "YES" : "NO");
+    // Serial.print("Low Battery Mode: ");
+    // Serial.println(inLowBatteryMode ? "YES" : "NO");
+
+    delay(20); // Small delay for stability
+  }

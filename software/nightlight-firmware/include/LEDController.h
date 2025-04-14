@@ -16,7 +16,10 @@ public:
   void startSpecialEffect();
   void stopSpecialEffect();
   void updateSpecialEffect();
+  void lowBattery();
   bool isEffectRunning(); // New method to check effect status
+  // Add this to LEDController.h in the public section:
+  bool getState() const { return ledsOn; }
 
 private:
   tinyNeoPixel strip;

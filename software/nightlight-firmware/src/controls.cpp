@@ -4,199 +4,190 @@
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ TOUCH CLASS
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-CapTouch::CapTouch(uint8_t sensingPin, uint8_t referencePin, uint16_t threshold,
-                   uint8_t debounceCount) {
-  //_sensePin = sensingPin;  // Remove these assignments
-  //_referencePin = referencePin;
-  _touchThresholdHigh = threshold;
-  _touchThresholdLow = threshold - 10;
-  _debounceLimit = debounceCount;
-  _touchState = false;
-  _debounceCounter = 0;
-  _lastMeasurement = 0;
-  _longPressDetected = false;
-  _shortPressDetected = false;
-
-  _currentBrightness = 255;
-  _brightnessIncreasing = false;
-  _minBrightness = 10;
-  _maxBrightness = 255;
-  _brightnessStep = 10;
-
+TouchSensor::TouchSensor(uint8_t pinA, uint8_t pinB, uint16_t threshold,
+                         uint8_t samples) {
+  _pinA = pinA;
+  _pinB = pinB;
+  _threshold = threshold;
+  _samples = samples;
+  _isCalibrated = false;
   _baseline = 0;
-  _baselineInitialized = false;
+  _lastReading = 0;
+
+  // Initialize long press detection variables
+  _touchStartTime = 0;
+  _isLongPressActive = false;
+  _wasLongPress = false;
+  _touchActive = false;
+  _longPressDuration = 2000; // Default to 2 seconds for long press
+
+  // Initialize brightness variables
+  _currentBrightness = 255; // Start at full brightness
+  _isBrightnessIncreasing = true;
+  _lastBrightnessUpdateTime = 0;
 }
 
-void CapTouch::begin(uint8_t sensePin, uint8_t referencePin) { // Modified
-  // Initial pin setup
-  pinMode(sensePin, INPUT); // Use passed parameters
-  pinMode(referencePin, INPUT);
-  calibrateBaseline(sensePin, referencePin); // Use passed parameters
+void TouchSensor::begin() {
+  // Initialize pins but don't set modes yet as they will change during sensing
+  pinMode(_pinA, INPUT); // Initially set as input (high impedance)
+  pinMode(_pinB, INPUT); // Initially set as input (high impedance)
 }
 
-uint16_t CapTouch::measureChargeTime(uint8_t chargePin, uint8_t sensePin) {
-  // Discharge
-  pinMode(sensePin, OUTPUT);
-  pinMode(chargePin, OUTPUT);
-  digitalWrite(sensePin, LOW);
-  digitalWrite(chargePin, LOW);
-  delayMicroseconds(5);
-
-  // Charge
-  pinMode(chargePin, OUTPUT);
-  digitalWrite(chargePin, HIGH);
-  pinMode(sensePin, INPUT);
-
-  uint16_t count = 0;
-  const uint16_t MAX_COUNT = 2000;
-  while (digitalRead(sensePin) == LOW && count < MAX_COUNT) {
-    count++;
-  }
-
-  // Restore pin states
-  digitalWrite(chargePin, LOW);
-  pinMode(chargePin, INPUT);
-  pinMode(sensePin, INPUT);
-  pinMode(chargePin, INPUT);
-
-  return count;
-}
-
-uint16_t CapTouch::measure(uint8_t sensePin, uint8_t referencePin) { // Modified
-  uint16_t measurement1 = measureChargeTime(sensePin, referencePin); // Modified
-  uint16_t measurement2 = measureChargeTime(referencePin, sensePin); // Modified
-  uint16_t measurement = (measurement1 + measurement2) / 2;
-
-  // ---[ Filtering ]---
-  // Simple moving average (can be tuned)
-  const uint8_t FILTER_SAMPLES = 4;
-  static uint16_t history[FILTER_SAMPLES];
-  static uint8_t historyIndex = 0;
+void TouchSensor::calibrate(uint8_t numSamples) {
   uint32_t sum = 0;
 
-  history[historyIndex] = measurement;
-  historyIndex = (historyIndex + 1) % FILTER_SAMPLES;
-
-  for (uint8_t i = 0; i < FILTER_SAMPLES; i++) {
-    sum += history[i];
-  }
-  measurement = sum / FILTER_SAMPLES;
-  _lastMeasurement = measurement;
-
-  // ---[ Dynamic Baseline Adjustment ]---
-  if (!_baselineInitialized) {
-    return measurement; // Or handle this differently
+  // Take multiple readings and average them for the baseline
+  for (uint8_t i = 0; i < numSamples; i++) {
+    sum += getRawReading();
+    delay(20); // Short delay between samples
   }
 
-  // Update baseline slowly (moving average)
-  _baseline = (_baseline * 999 + measurement) / 1000;
-
-  bool previousTouchState = _touchState;
-
-  // ---[ Hysteresis and Debouncing ]---
-  if (_touchState) {
-    if (measurement < _baseline + _touchThresholdLow) {
-      if (_debounceCounter > 0) {
-        _debounceCounter--;
-      } else {
-        _touchState = false;
-        // Touch ended
-        if (!_longPressDetected &&
-            (millis() - _touchStartTime < _longPressThreshold)) {
-          _shortPressDetected = true;
-        }
-      }
-    }
-  } else {
-    if (measurement > _baseline + _touchThresholdHigh) {
-      if (_debounceCounter < _debounceLimit) {
-        _debounceCounter++;
-      } else {
-        _touchState = true;
-        _touchStartTime = millis();
-        _longPressDetected = false;
-        _shortPressDetected = false;
-      }
-    }
-  }
-
-  return measurement;
+  _baseline = sum / numSamples;
+  _isCalibrated = true;
 }
 
-void CapTouch::calibrateBaseline(uint8_t sensePin,
-                                 uint8_t referencePin) { // Modified
-  const uint16_t BASELINE_SAMPLES = 100;
+uint16_t TouchSensor::getRawReading() {
   uint32_t sum = 0;
-  for (int i = 0; i < BASELINE_SAMPLES; i++) {
-    sum += measure(sensePin, referencePin); // Modified
-    delay(2);
-  }
-  _baseline = sum / BASELINE_SAMPLES;
-  _baselineInitialized = true;
-}
 
-bool CapTouch::isTouched() { return _touchState; }
+  // Take multiple readings and average them
+  for (uint8_t i = 0; i < _samples; i++) {
+    // Step 1: Discharge the capacitor
+    pinMode(_pinA, OUTPUT);
+    pinMode(_pinB, OUTPUT);
+    digitalWrite(_pinA, LOW);
+    digitalWrite(_pinB, LOW);
+    delayMicroseconds(10);
 
-uint16_t CapTouch::getRawValue() { return _lastMeasurement; }
+    // Step 2: Charge through resistor and measure time
+    pinMode(_pinB, INPUT);     // Set sensing pin to input (high impedance)
+    digitalWrite(_pinA, HIGH); // Begin charging through resistor
 
-void CapTouch::setThreshold(uint16_t threshold) {
-  _touchThresholdHigh = threshold;
-  _touchThresholdLow = threshold - 10;
-}
-
-bool CapTouch::isShortPress() {
-  if (_shortPressDetected) {
-    _shortPressDetected = false;
-    return true;
-  }
-  return false;
-}
-
-bool CapTouch::isLongPress() {
-  if (_longPressDetected) {
-    _longPressDetected = false;
-    return true;
-  }
-  return false;
-}
-
-void CapTouch::setLongPressTime(unsigned long ms) { _longPressThreshold = ms; }
-
-// New brightness control methods
-void CapTouch::configureBrightness(uint8_t minBrightness, uint8_t maxBrightness,
-                                   uint8_t step) {
-  _minBrightness = minBrightness;
-  _maxBrightness = maxBrightness;
-  _brightnessStep = step;
-  _currentBrightness = maxBrightness;
-}
-
-uint8_t CapTouch::adjustBrightness() {
-  if (_currentBrightness <= _minBrightness) {
-    _brightnessIncreasing = true;
-  } else if (_currentBrightness >= _maxBrightness) {
-    _brightnessIncreasing = false;
-  }
-
-  if (_brightnessIncreasing) {
-    if (_currentBrightness <= _maxBrightness - _brightnessStep) {
-      _currentBrightness += _brightnessStep;
-    } else {
-      _currentBrightness = _maxBrightness;
+    // Count how long it takes for the input pin to go high
+    uint16_t count = 0;
+    while (digitalRead(_pinB) == LOW && count < 500) {
+      count++;
     }
-  } else {
-    if (_currentBrightness >= _minBrightness + _brightnessStep) {
-      _currentBrightness -= _brightnessStep;
-    } else {
-      _currentBrightness = _minBrightness;
+
+    sum += count;
+    delayMicroseconds(50); // Small delay between samples
+  }
+
+  _lastReading = sum / _samples;
+  return _lastReading;
+}
+
+bool TouchSensor::isTouched() {
+  if (!_isCalibrated) {
+    calibrate(); // Auto-calibrate if not done yet
+  }
+
+  uint16_t reading = getRawReading();
+
+  // Touch will typically increase capacitance, which means it takes longer to
+  // charge So touched reading is usually higher than baseline
+  return (reading > (_baseline + _threshold));
+}
+
+uint16_t TouchSensor::getLastReading() const { return _lastReading; }
+
+uint16_t TouchSensor::getBaseline() const { return _baseline; }
+
+void TouchSensor::setThreshold(uint16_t threshold) { _threshold = threshold; }
+
+void TouchSensor::update() {
+  bool currentlyTouched = isTouched();
+
+  // If touch just started, record the time
+  if (currentlyTouched && !_touchActive) {
+    _touchStartTime = millis();
+    _touchActive = true;
+    _isLongPressActive = false;
+    _wasLongPress = false;
+  }
+
+  // Check for long press if touch is active
+  if (_touchActive && currentlyTouched) {
+    if (!_isLongPressActive &&
+        (millis() - _touchStartTime >= _longPressDuration)) {
+      _isLongPressActive = true;
+      // When entering long press mode, keep the last brightness
+      _lastBrightnessUpdateTime = millis();
     }
   }
 
+  // If touch ended
+  if (!currentlyTouched && _touchActive) {
+    _touchActive = false;
+    _wasLongPress = _isLongPressActive;
+    _isLongPressActive = false;
+  }
+}
+
+bool TouchSensor::isLongPress() { return _isLongPressActive; }
+
+bool TouchSensor::wasLongPress() const { return _wasLongPress; }
+
+void TouchSensor::setLongPressDuration(unsigned long duration) {
+  _longPressDuration = duration;
+}
+
+uint8_t TouchSensor::getTriangleWaveBrightness() {
+  unsigned long currentTime = millis();
+
+  // Serial.print("getTriangleWaveBrightness called, _isLongPressActive=");
+  // Serial.println(_isLongPressActive ? "true" : "false");
+
+  // If this is the first time in long press mode, use the current brightness
+  // and start moving from there. No need to reset to minimum brightness.
+  if (!_isLongPressActive) {
+    // Serial.print("Not in long press mode, returning current brightness: ");
+    // Serial.println(_currentBrightness);
+    return _currentBrightness;
+  }
+
+  // // Check if it's time to update brightness
+  // Serial.print("Time since last update: ");
+  // Serial.println(currentTime - _lastBrightnessUpdateTime);
+
+  // Update brightness every 25ms for smooth transitions
+  const unsigned long updateInterval = 35;
+  if (currentTime - _lastBrightnessUpdateTime >= updateInterval) {
+    _lastBrightnessUpdateTime = currentTime;
+
+    // Save old brightness for comparison
+    uint8_t oldBrightness = _currentBrightness;
+
+    // Change brightness by steps at a time
+    const uint8_t brightnessStep =
+        5; // Adjust step size for faster/slower transition
+
+    // Update brightness based on direction
+    if (_isBrightnessIncreasing) {
+      if (_currentBrightness < 255 - brightnessStep) {
+        _currentBrightness += brightnessStep;
+      } else {
+        _currentBrightness = 255;
+        _isBrightnessIncreasing = false; // Reverse direction at maximum
+      }
+    } else {
+      if (_currentBrightness > 40 + brightnessStep) {
+        _currentBrightness -= brightnessStep;
+      } else {
+        _currentBrightness = 40;        // Minimum brightness
+        _isBrightnessIncreasing = true; // Reverse direction at minimum
+      }
+    }
+
+    // Serial.print("Brightness changed from ");
+    // Serial.print(oldBrightness);
+    // Serial.print(" to ");
+    // Serial.println(_currentBrightness);
+  }
+
+  // Serial.print("Returning brightness: ");
+  // Serial.println(_currentBrightness);
   return _currentBrightness;
 }
-
-uint8_t CapTouch::getCurrentBrightness() { return _currentBrightness; }
-
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SHAKE CLASS
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -216,38 +207,37 @@ Shake::Shake(uint8_t tiltSWpin) {
   _shakeTimeWindow = 1200;
 }
 
-void Shake::begin() {
-  pinMode(_tiltSWPin, INPUT_PULLUP);
-} // Use internal pullup
+void Shake::begin() { pinMode(_tiltSWPin, INPUT); }
 
 bool Shake::detectShake() {
   bool tiltState = !digitalRead(_tiltSWPin); // NORMAL = 0, TILTED = 1
   unsigned long currentTime = millis();
 
   if (tiltState != _previousTiltState) {
-    if (currentTime - _lastChangeTime > 50) { // Debounce
-      _lastChangeTime = currentTime;
+    _lastChangeTime = currentTime;
 
-      if (_shakeCount == 0) // First state change, start timer
-      {
-        _shakeStartTime = currentTime;
-      }
-      _shakeCount++;
-      _previousTiltState = tiltState;
+    if (_shakeCount == 0) // First state change, start timer
+    {
+      _shakeStartTime = currentTime;
     }
+    _shakeCount++;
+    _previousTiltState = tiltState;
   }
 
   // Check if we've reached the shake threshold within the time window
   if (_shakeCount >= _minShakeCount) {
+    // Shake detected - reset counters and return true
     _shakeCount = 0;
     return true;
   }
 
   // Check if we've exceeded the time window without enough changes
   if (_shakeCount > 0 && (currentTime - _shakeStartTime > _shakeTimeWindow)) {
+    // Time window expired without enough changes - reset counters
     _shakeCount = 0;
   }
 
+  // No shake detected yet
   return false;
 }
 

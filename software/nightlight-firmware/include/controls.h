@@ -2,56 +2,64 @@
 #define CONTROLS_H
 
 #include <Arduino.h>
+#include "config.h"
 
-// CapTouch Class
-class CapTouch {
+class TouchSensor {
 private:
-  // uint8_t _sensePin;  // Remove these member variables
-  // uint8_t _referencePin;
-  uint16_t _touchThresholdHigh; // Hysteresis: Touch ON threshold
-  uint16_t _touchThresholdLow;  // Hysteresis: Touch OFF threshold
-  uint8_t _debounceLimit;
-  uint8_t _debounceCounter;
-  bool _touchState;
-  uint16_t _lastMeasurement;
+  uint8_t _pinA;         // Output pin (charging pin)
+  uint8_t _pinB;         // Input pin (sensing pin)
+  uint16_t _threshold;   // Touch detection threshold
+  uint16_t _baseline;    // Baseline reading for no-touch state
+  bool _isCalibrated;    // Flag to indicate if sensor is calibrated
+  uint8_t _samples;      // Number of samples to average for reading
+  uint16_t _lastReading; // Last raw reading
 
-  // Gesture detection
-  unsigned long _touchStartTime;
-  unsigned long _longPressThreshold = 1000; // Default 1 second
-  bool _longPressDetected;
-  bool _shortPressDetected;
-
-  // Brightness control
+  // Long press detection variables
+  unsigned long _touchStartTime;    // When touch began
+  bool _isLongPressActive;          // Currently in a long press
+  bool _wasLongPress;               // Previous touch was a long press
+  bool _touchActive;                // Touch is currently active
+  unsigned long _longPressDuration; // How long to consider a long press (ms)
   uint8_t _currentBrightness;
-  bool _brightnessIncreasing;
-  uint8_t _minBrightness;
-  uint8_t _maxBrightness;
-  uint8_t _brightnessStep;
-
-  // Filtering and baseline
-  uint16_t _baseline;
-  bool _baselineInitialized;
+  bool _isBrightnessIncreasing;
+  unsigned long _lastBrightnessUpdateTime;
 
 public:
-  CapTouch(uint8_t sensingPin, uint8_t referencePin, uint16_t threshold,
-           uint8_t debounceCount);
-  void begin(uint8_t sensePin, uint8_t referencePin); // Modified
-  uint16_t measureChargeTime(uint8_t chargePin, uint8_t sensePin);
-  uint16_t measure(uint8_t sensePin, uint8_t referencePin); // Modified
+  // Constructor
+  TouchSensor(uint8_t pinA, uint8_t pinB, uint16_t threshold = 50,
+              uint8_t samples = 5);
+
+  // Initialize the sensor
+  void begin();
+
+  // Calibrate the sensor (establish baseline)
+  void calibrate(uint8_t numSamples = 10);
+
+  // Get raw touch reading
+  uint16_t getRawReading();
+
+  // Check if touch is detected
   bool isTouched();
-  uint16_t getRawValue();
+
+  // Get the last reading value
+  uint16_t getLastReading() const;
+
+  // Get the current baseline value
+  uint16_t getBaseline() const;
+
+  // Set a new threshold value
   void setThreshold(uint16_t threshold);
-  bool isShortPress();
-  bool isLongPress();
-  void setLongPressTime(unsigned long ms);
 
-  // New brightness control methods
-  void configureBrightness(uint8_t minBrightness, uint8_t maxBrightness,
-                           uint8_t step);
-  uint8_t adjustBrightness();
-  uint8_t getCurrentBrightness();
+  // New methods for long press detection
+  bool isLongPress();        // Returns true if current touch is a long press
+  bool wasLongPress() const; // Returns true if previous touch was a long press
+  void update(); // Update touch state, should be called in every loop iteration
 
-  void calibrateBaseline(uint8_t sensePin, uint8_t referencePin); // Modified
+  // Method to adjust brightness in a triangle wave pattern
+  uint8_t getTriangleWaveBrightness();
+
+  // Set long press duration
+  void setLongPressDuration(unsigned long duration);
 };
 
 // Shake Class
