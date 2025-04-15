@@ -134,9 +134,6 @@ void TouchSensor::setLongPressDuration(unsigned long duration) {
 uint8_t TouchSensor::getTriangleWaveBrightness() {
   unsigned long currentTime = millis();
 
-  // Serial.print("getTriangleWaveBrightness called, _isLongPressActive=");
-  // Serial.println(_isLongPressActive ? "true" : "false");
-
   // If this is the first time in long press mode, use the current brightness
   // and start moving from there. No need to reset to minimum brightness.
   if (!_isLongPressActive) {
@@ -144,10 +141,6 @@ uint8_t TouchSensor::getTriangleWaveBrightness() {
     // Serial.println(_currentBrightness);
     return _currentBrightness;
   }
-
-  // // Check if it's time to update brightness
-  // Serial.print("Time since last update: ");
-  // Serial.println(currentTime - _lastBrightnessUpdateTime);
 
   // Update brightness every 25ms for smooth transitions
   const unsigned long updateInterval = 35;
@@ -177,15 +170,8 @@ uint8_t TouchSensor::getTriangleWaveBrightness() {
         _isBrightnessIncreasing = true; // Reverse direction at minimum
       }
     }
-
-    // Serial.print("Brightness changed from ");
-    // Serial.print(oldBrightness);
-    // Serial.print(" to ");
-    // Serial.println(_currentBrightness);
   }
 
-  // Serial.print("Returning brightness: ");
-  // Serial.println(_currentBrightness);
   return _currentBrightness;
 }
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SHAKE CLASS
@@ -235,17 +221,11 @@ bool Shake::detectShake() {
 
     _shakeCount++;
     _previousTiltState = currentTiltState;
-
-    Serial.print("Tilt state changed to: ");
-    Serial.print(currentTiltState ? "TILTED" : "NORMAL");
-    Serial.print(" - Shake count: ");
-    Serial.println(_shakeCount);
   }
 
   // Check if we've reached the shake threshold within the time window
   if (_shakeCount >= _minShakeCount) {
     // Shake detected - reset counters and return true
-    Serial.println("Shake detected!");
     _shakeCount = 0;
     return true;
   }
@@ -253,7 +233,6 @@ bool Shake::detectShake() {
   // Check if we've exceeded the time window without enough changes
   if (_shakeCount > 0 && (currentTime - _shakeStartTime > _shakeTimeWindow)) {
     // Time window expired without enough changes - reset counters
-    Serial.println("Shake time window expired, resetting");
     _shakeCount = 0;
   }
 
@@ -261,8 +240,8 @@ bool Shake::detectShake() {
   return false;
 }
 
-  void Shake::setShakeThreshold(uint8_t count) { _minShakeCount = count; }
+void Shake::setShakeThreshold(uint8_t count) { _minShakeCount = count; }
 
-  void Shake::setShakeWindow(unsigned long milliseconds) {
-    _shakeTimeWindow = milliseconds;
-  }
+void Shake::setShakeWindow(unsigned long milliseconds) {
+  _shakeTimeWindow = milliseconds;
+}

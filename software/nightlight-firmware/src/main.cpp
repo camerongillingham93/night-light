@@ -41,10 +41,6 @@ void loop() {
   uint16_t rawADC = analogRead(battMeasure);
   float batteryVoltage = (rawADC / 1023.0) * 5 * 2;
 
-  // Serial.print("Battery Voltage: ");
-  // Serial.print(batteryVoltage, 2);
-  // Serial.println(" V");
-
   // Skip all control processing if effect is running
   if (strip.isEffectRunning()) {
     delay(20); // Small delay for stability
@@ -53,7 +49,6 @@ void loop() {
 
   // Detect shake only when lights are ON and no effect is running
   if (strip.getState() && !strip.isEffectRunning() && shake.detectShake()) {
-    Serial.println("Shake detected! Triggering firefly effect");
     strip.fireflyEffect();
     // Return after effect is done to avoid processing other controls
     // immediately
@@ -68,102 +63,75 @@ void loop() {
 
   // Check for long press and adjust brightness if active
   if (touchSensor.isLongPress() && batteryVoltage > 2.8) {
-    // Serial.println("-------------------------");
-    // Serial.println("LONG PRESS DETECTED");
-
-    // Print current state before changes
-    // Serial.print("LED state before: ");
-    // Serial.println(strip.getState() ? "ON" : "OFF");
-    // Serial.print("Current brightness before: ");
-    //Serial.println(strip.brightness);
 
     // Ensure lights are on when adjusting brightness
     if (!strip.getState()) {
-      //Serial.println("Turning LEDs ON for brightness adjustment");
+      // Serial.println("Turning LEDs ON for brightness adjustment");
       strip.setState(true);
     } else {
-      //Serial.println("LEDs already ON");
+      // Serial.println("LEDs already ON");
     }
 
     // Get brightness value
     uint8_t wavebrightness = touchSensor.getTriangleWaveBrightness();
-    // Serial.print("New brightness value: ");
-    // Serial.println(wavebrightness);
 
     // Update brightness
     strip.setBrightness(wavebrightness);
-
-    // Print state after changes
-    // Serial.print("LED state after: ");
-    // Serial.println(strip.getState() ? "ON" : "OFF");
-    // Serial.println("-------------------------");
   }
 
-    // Check battery voltage and set low battery mode flag
-    if (batteryVoltage <= 2.8) {
-      // If we just entered low battery mode, turn off the lights
-      if (!inLowBatteryMode) {
-        inLowBatteryMode = true;
-        strip.setState(
-            false); // Make sure lights are off when entering low battery mode
-        strip.lowBattery();
-      }
+  // Check battery voltage and set low battery mode flag
+  if (batteryVoltage <= 2.8) {
+    // If we just entered low battery mode, turn off the lights
+    if (!inLowBatteryMode) {
+      inLowBatteryMode = true;
+      strip.setState(
+          false); // Make sure lights are off when entering low battery mode
+      strip.lowBattery();
+    }
 
-      // Debounce the touch reading
-      if (isTouched != lastTouchState) {
-        lastDebounceTime = millis();
-      }
+    // Debounce the touch reading
+    if (isTouched != lastTouchState) {
+      lastDebounceTime = millis();
+    }
 
-      // Only flash low battery warning if debounce time has passed
-      if ((millis() - lastDebounceTime) > debounceDelay) {
-        if (isTouched != currentTouchState) {
-          currentTouchState = isTouched;
-          if (isTouched == true) {
-            strip.lowBattery(); // Just show low battery warning
-            // Don't turn lights back on afterward
-          }
-        }
-      }
-    } else { // Normal operation (battery > 2.8V)
-      // Clear low battery mode flag if we're returning from low battery state
-      if (inLowBatteryMode) {
-        inLowBatteryMode = false;
-        // Keep lights off when coming out of low battery mode, until user turns
-        // them on
-      }
-
-      // Debounce the touch reading
-      if (isTouched != lastTouchState) {
-        lastDebounceTime = millis();
-      }
-
-      // Only change LED state if debounce time has passed
-      if ((millis() - lastDebounceTime) > debounceDelay) {
-        if (isTouched != currentTouchState) {
-          currentTouchState = isTouched;
-
-          // Only toggle if touch ended (released) AND it was NOT a long press
-          if (isTouched == false && touchSensor.wasLongPress() == false) {
-            strip.toggle();
-          }
+    // Only flash low battery warning if debounce time has passed
+    if ((millis() - lastDebounceTime) > debounceDelay) {
+      if (isTouched != currentTouchState) {
+        currentTouchState = isTouched;
+        if (isTouched == true) {
+          strip.lowBattery(); // Just show low battery warning
+          // Don't turn lights back on afterward
         }
       }
     }
+  } else { // Normal operation (battery > 2.8V)
+    // Clear low battery mode flag if we're returning from low battery state
+    if (inLowBatteryMode) {
+      inLowBatteryMode = false;
+      // Keep lights off when coming out of low battery mode, until user turns
+      // them on
+    }
 
-    // Update last touch state
-    lastTouchState = isTouched;
+    // Debounce the touch reading
+    if (isTouched != lastTouchState) {
+      lastDebounceTime = millis();
+    }
 
-    // Optional: Uncomment for serial debugging if needed
-    // Serial.print("Raw: ");
-    // Serial.print(touchSensor.getLastReading());
-    // Serial.print(" Baseline: ");
-    // Serial.print(touchSensor.getBaseline());
-    // Serial.print(" Touched: ");
-    // Serial.println(isTouched ? "YES" : "NO");
-    // Serial.print("Long Press: ");
-    // Serial.println(touchSensor.isLongPress() ? "YES" : "NO");
-    // Serial.print("Low Battery Mode: ");
-    // Serial.println(inLowBatteryMode ? "YES" : "NO");
+    // Only change LED state if debounce time has passed
+    if ((millis() - lastDebounceTime) > debounceDelay) {
+      if (isTouched != currentTouchState) {
+        currentTouchState = isTouched;
 
-    delay(20); // Small delay for stability
+        // Only toggle if touch ended (released) AND it was NOT a long press
+        if (isTouched == false && touchSensor.wasLongPress() == false) {
+          strip.toggle();
+        }
+      }
+    }
   }
+
+  // Update last touch state
+  lastTouchState = isTouched;
+
+  delay(20); // Small delay for stability
+}

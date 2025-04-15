@@ -38,12 +38,6 @@ void LEDController::setColor(uint8_t r, uint8_t g, uint8_t b) {
 }
 
 void LEDController::updateStrip() {
-  //Serial.println("-- updateStrip called --");
-
-  // if (effectRunning) {
-  //   Serial.println("Effect running, not updating strip");
-  //   return; // Don't interfere with running effects
-  // }
 
   uint32_t color;
   if (ledsOn) {
@@ -53,15 +47,8 @@ void LEDController::updateStrip() {
     uint8_t b = (blue * brightness) / 255;
     color = strip.Color(r, g, b);
 
-    // Serial.print("LEDs ON, color components: R=");
-    // Serial.print(r);
-    // Serial.print(" G=");
-    // Serial.print(g);
-    // Serial.print(" B=");
-    // Serial.println(b);
   } else {
     color = strip.Color(0, 0, 0);
-   // Serial.println("LEDs OFF, setting color to black");
   }
 
   for (int i = 0; i < strip.numPixels(); i++) {
@@ -69,19 +56,14 @@ void LEDController::updateStrip() {
   }
 
   strip.show();
-  // Serial.println("-- strip.show() called --");
-  // Serial.print("Current Brightness is:");
-  // Serial.println(brightness);
 }
 
 void LEDController::startSpecialEffect() {
-  Serial.println("LED Controller: Starting special effect");
   effectStartTime = millis();
   effectRunning = true;
 }
 
 void LEDController::stopSpecialEffect() {
-  //Serial.println("LED Controller: Stopping special effect");
   effectRunning = false;
   updateStrip(); // Restore normal LED state
 }
@@ -111,7 +93,7 @@ void LEDController::updateSpecialEffect() {
 
 bool LEDController::isEffectRunning() { return effectRunning; }
 
-void LEDController::lowBattery(){
+void LEDController::lowBattery() {
   // Save the current state to restore later
   bool previousState = ledsOn;
   uint8_t prevRed = red;
@@ -119,7 +101,7 @@ void LEDController::lowBattery(){
   uint8_t prevBlue = blue;
   uint8_t prevBrightness = brightness;
 
-  //R and G are backwards???
+  // R and G are backwards???
   red = 0;
   green = 255;
   blue = 0;
@@ -182,8 +164,6 @@ void LEDController::fireflyEffect() {
 
   // Set effect running flag
   effectRunning = true;
-
-  Serial.println("LED Controller: Starting firefly effect");
 
   // Colors for fireflies - warmish green-yellow
   const uint8_t fireflyRed = 160;
@@ -310,6 +290,4 @@ void LEDController::fireflyEffect() {
 
   // Update LEDs with restored settings
   updateStrip();
-
-  Serial.println("LED Controller: Firefly effect completed");
 }
