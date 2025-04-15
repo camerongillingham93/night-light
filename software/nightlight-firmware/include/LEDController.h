@@ -13,9 +13,6 @@ public:
   void setBrightness(uint8_t newBrightness);
   void setColor(uint8_t r, uint8_t g, uint8_t b);
   void updateStrip();
-  void startSpecialEffect();
-  void stopSpecialEffect();
-  void updateSpecialEffect();
   void lowBattery();
   void fireflyEffect();
   bool isEffectRunning(); // New method to check effect status
