@@ -20,6 +20,7 @@
 - [ ] Order Parts 
   - Ensure there is enough inventory for 10 boards
   - Look on ali for parts before mouser (Battery Holder, Tilt sw, etc.)
+- [ ] Lights on when supervisory cct opens regulator, current must be flowing into lights somehow
 ### Software
 - [ ] Refactor
   - Before fixing bugs and adding new features do a thorough clean and refactor of current revision.
