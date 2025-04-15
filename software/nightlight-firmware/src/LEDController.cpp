@@ -72,39 +72,6 @@ void LEDController::updateStrip() {
   strip.show();
 }
 
-// void LEDController::startSpecialEffect() {
-//   effectStartTime = millis();
-//   effectRunning = true;
-// }
-
-// void LEDController::stopSpecialEffect() {
-//   effectRunning = false;
-//   updateStrip(); // Restore normal LED state
-// }
-
-// void LEDController::updateSpecialEffect() {
-//   if (!effectRunning)
-//     return;
-
-//   // Simple green blinking effect
-//   unsigned long progress = millis() - effectStartTime;
-//   bool isOn = ((progress / 250) % 2) == 0; // Blink every 250ms
-
-//   if (isOn) {
-//     // Set all pixels to green
-//     for (int i = 0; i < strip.numPixels(); i++) {
-//       strip.setPixelColor(i, strip.Color(0, 255, 0));
-//     }
-//   } else {
-//     // Turn all pixels off
-//     for (int i = 0; i < strip.numPixels(); i++) {
-//       strip.setPixelColor(i, strip.Color(0, 0, 0));
-//     }
-//   }
-
-//   strip.show();
-// }
-
 bool LEDController::isEffectRunning() { return effectRunning; }
 
 void LEDController::lowBattery() {
