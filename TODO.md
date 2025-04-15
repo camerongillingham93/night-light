@@ -1,4 +1,46 @@
 # Nightlight Project - To-Do List 
+## April 15, 2025
+
+### Notes
+- Accidentally inserted battery backwards and burned up many components, tried re-working but decided to just assemble an entire new board. Have a working version of the firmware done, needs to be tested further and to find bugs and things to improve. Charge controller has yet to be fully tested. 
+
+### TODO
+### Hardware
+- [ ] Test Charge controller 
+  - Complete multiple charge discharge cycles, and try to confirm charge current is around ~220MA
+- [ ] Complete final revision of PCB
+  - Remove RST switch
+  - Add reverse protection diode
+  - Change resistors for ADC to 1Mohm
+  - Look for other things to improve
+- [ ] Order boards 
+  - Gold plating, exposed vias
+  - Find a larger order quantity that is more cost effective
+  - Look into JLC assembly? 
+- [ ] Order Parts 
+  - Ensure there is enough inventory for 10 boards
+  - Look on ali for parts before mouser (Battery Holder, Tilt sw, etc.)
+### Software
+- [ ] Refactor
+  - Before fixing bugs and adding new features do a thorough clean and refactor of current revision.
+    - Add titles to each file
+    - remove debug statements
+    - remove unused code
+- [ ] Improve Battery Life and monitoring 
+  - Add Low and high thresholds to enter and exit LOW battery mode
+  - Only check batery voltage every minute (Should help with hystersis issue)
+  - Lower the low threshhold, get closer to the point where the supervisory cct will cut power
+  - Play with other values to improve battery life but still provide a reasonable amount of light
+    - Lower brightness limits
+    - less LED's
+  - Enter sleep in low Battery mode?
+  - Slow down clock to 10MHz
+- [ ] features 
+  - Fade lights back in after firefly affect 
+  - Lengthen firefly effect
+
+  - 
+
 
 ## April  12, 2025
 ### Assembly
@@ -10,7 +52,7 @@
 - firmware is working, am able to communicate with board via serial comms
 - Soldered fairy lights on for the first time, not working. Either incorrect pin assignment or poor soldering
 - Issues with LDO circuitry
-  - Supervisory IC is working as expected, PSt goes LOW when Vin < 2.5V
+  - Supervisory IC is working as expected, RST goes LOW when Vin < 2.5V
   - Vout of regulator was at 1.6 when EN was LOW, found that this was "PHANTOM POWER" from PIN_PA4 which is monitoring battery voltage via the ADC
   - As far as I know there is no way around this is i want o measure the voltage, but is lowered significatly by using the volatge divider with 100k ohm resistors
 - Issue where touch pad only works reliably when touching board with other hand doesnt seem to be improved by grounding in R2
