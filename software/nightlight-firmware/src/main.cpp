@@ -33,6 +33,8 @@ void setup() {
 
   // Initialize shake sensor
   shake.begin();
+  shake.setShakeThreshold(5);
+  shake.setShakeWindow(900);
 }
 
 void loop() {
@@ -42,6 +44,21 @@ void loop() {
   // Serial.print("Battery Voltage: ");
   // Serial.print(batteryVoltage, 2);
   // Serial.println(" V");
+
+  // Skip all control processing if effect is running
+  if (strip.isEffectRunning()) {
+    delay(20); // Small delay for stability
+    return;
+  }
+
+  // Detect shake only when lights are ON and no effect is running
+  if (strip.getState() && !strip.isEffectRunning() && shake.detectShake()) {
+    Serial.println("Shake detected! Triggering firefly effect");
+    strip.fireflyEffect();
+    // Return after effect is done to avoid processing other controls
+    // immediately
+    return;
+  }
 
   // Update touch sensor state for long press detection
   touchSensor.update();
