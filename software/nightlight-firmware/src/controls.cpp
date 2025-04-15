@@ -207,26 +207,45 @@ Shake::Shake(uint8_t tiltSWpin) {
   _shakeTimeWindow = 1200;
 }
 
-void Shake::begin() { pinMode(_tiltSWPin, INPUT); }
+void Shake::begin() {
+  pinMode(_tiltSWPin, INPUT_PULLUP);             // Use internal pullup resistor
+  _previousTiltState = !digitalRead(_tiltSWPin); // Initialize current state
+}
 
 bool Shake::detectShake() {
-  bool tiltState = !digitalRead(_tiltSWPin); // NORMAL = 0, TILTED = 1
   unsigned long currentTime = millis();
 
-  if (tiltState != _previousTiltState) {
+  // Read the current tilt state
+  bool currentTiltState = !digitalRead(_tiltSWPin); // NORMAL = 0, TILTED = 1
+
+  // Debounce: Only consider a state change if it's been stable for some time
+  const unsigned long debounceTime = 65; // 50ms debounce period
+
+  // Check if the state is different than the previous state
+  // AND enough time has passed since the last change
+  if (currentTiltState != _previousTiltState &&
+      (currentTime - _lastChangeTime) > debounceTime) {
+
     _lastChangeTime = currentTime;
 
-    if (_shakeCount == 0) // First state change, start timer
-    {
+    if (_shakeCount == 0) {
+      // First state change, start timer
       _shakeStartTime = currentTime;
     }
+
     _shakeCount++;
-    _previousTiltState = tiltState;
+    _previousTiltState = currentTiltState;
+
+    Serial.print("Tilt state changed to: ");
+    Serial.print(currentTiltState ? "TILTED" : "NORMAL");
+    Serial.print(" - Shake count: ");
+    Serial.println(_shakeCount);
   }
 
   // Check if we've reached the shake threshold within the time window
   if (_shakeCount >= _minShakeCount) {
     // Shake detected - reset counters and return true
+    Serial.println("Shake detected!");
     _shakeCount = 0;
     return true;
   }
@@ -234,6 +253,7 @@ bool Shake::detectShake() {
   // Check if we've exceeded the time window without enough changes
   if (_shakeCount > 0 && (currentTime - _shakeStartTime > _shakeTimeWindow)) {
     // Time window expired without enough changes - reset counters
+    Serial.println("Shake time window expired, resetting");
     _shakeCount = 0;
   }
 
@@ -241,8 +261,8 @@ bool Shake::detectShake() {
   return false;
 }
 
-void Shake::setShakeThreshold(uint8_t count) { _minShakeCount = count; }
+  void Shake::setShakeThreshold(uint8_t count) { _minShakeCount = count; }
 
-void Shake::setShakeWindow(unsigned long milliseconds) {
-  _shakeTimeWindow = milliseconds;
-}
+  void Shake::setShakeWindow(unsigned long milliseconds) {
+    _shakeTimeWindow = milliseconds;
+  }
