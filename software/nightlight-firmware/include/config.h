@@ -14,7 +14,7 @@
 
 // NeoPixel LED Strip Setup
 #define LED_PIN PIN_PB1
-#define NUM_PIXELS 12
+#define NUM_PIXELS 10
 
 // Brightness control
 #define BRIGHTNESS_STEP 7

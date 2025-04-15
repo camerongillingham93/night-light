@@ -17,7 +17,7 @@
 
 LEDController::LEDController(uint8_t pin, uint16_t numPixels)
     : strip(numPixels, pin, NEO_GRB + NEO_KHZ800), ledsOn(false),
-      brightness(255), red(160), green(255), blue(30), effectRunning(false),
+      brightness(230), red(160), green(255), blue(30), effectRunning(false),
       effectStartTime(0) {}
 
 void LEDController::begin() {
