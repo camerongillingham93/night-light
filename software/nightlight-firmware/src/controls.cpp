@@ -1,3 +1,17 @@
+
+/**
+ * Night Light Firmware V1 - Controls Module
+ * -----------------------------------------
+ * Implements sensor controls for the night light:
+ * - TouchSensor: Capacitive touch sensing with debounce, long-press detection,
+ *   and brightness adjustment via triangle wave pattern
+ * - Shake: Tilt switch detection with configurable sensitivity for triggering
+ *   special effects
+ *
+ * @authors Cameron Gillingham, Claude AI
+ * @version 1.0
+ */
+
 #include "controls.h"
 #include <Arduino.h>
 
@@ -137,8 +151,7 @@ uint8_t TouchSensor::getTriangleWaveBrightness() {
   // If this is the first time in long press mode, use the current brightness
   // and start moving from there. No need to reset to minimum brightness.
   if (!_isLongPressActive) {
-    // Serial.print("Not in long press mode, returning current brightness: ");
-    // Serial.println(_currentBrightness);
+
     return _currentBrightness;
   }
 

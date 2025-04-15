@@ -1,3 +1,16 @@
+/**
+ * Night Light Firmware V1 - Main Controller
+ * -----------------------------------------
+ * Main program flow controlling a touch-sensitive LED night light with:
+ * - Touch sensor for on/off toggling and brightness adjustment (via long press)
+ * - Shake detection for special "firefly" effects
+ * - Low battery detection and warning
+ * - LED strip control for various effects
+ *
+ * @authors Cameron Gillingham, Claude AI
+ * @version 1.0
+ */
+
 #include "LEDController.h"
 #include "config.h"
 #include "controls.h"
