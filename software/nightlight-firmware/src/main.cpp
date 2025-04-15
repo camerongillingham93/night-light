@@ -30,6 +30,17 @@ unsigned long debounceDelay = 10; // Debounce time in milliseconds
 // Flag to track if we're in low battery mode
 bool inLowBatteryMode = false;
 
+const float LOW_BATT_ENTER_THRESHOLD =
+    2.7; // Enter low battery mode below this voltage
+const float LOW_BATT_EXIT_THRESHOLD =
+    2.8; // Exit low battery mode above this voltage
+
+// For less frequent battery checking
+unsigned long lastBatteryCheckTime = 0;
+const unsigned long BATTERY_CHECK_INTERVAL =
+    60000;                  // Check battery every 60 seconds
+float batteryVoltage = 3.0; // Initial safe value
+
 void setup() {
   Serial.begin(9600);
   delay(100); // Short delay for serial to initialize
@@ -51,8 +62,22 @@ void setup() {
 }
 
 void loop() {
-  uint16_t rawADC = analogRead(battMeasure);
-  float batteryVoltage = (rawADC / 1023.0) * 5 * 2;
+  unsigned long currentTime = millis();
+  if (currentTime - lastBatteryCheckTime >= BATTERY_CHECK_INTERVAL) {
+    uint16_t rawADC = analogRead(battMeasure);
+    batteryVoltage = (rawADC / 1023.0) * 5 * 2;
+    lastBatteryCheckTime = currentTime;
+
+    // Update low battery state with hysteresis
+    if (batteryVoltage <= LOW_BATT_ENTER_THRESHOLD && !inLowBatteryMode) {
+      inLowBatteryMode = true;
+      strip.setState(false); // Turn off lights when entering low battery mode
+      strip.lowBattery();    // Show low battery warning
+    } else if (batteryVoltage >= LOW_BATT_EXIT_THRESHOLD && inLowBatteryMode) {
+      inLowBatteryMode = false;
+      // Keep lights off when exiting low battery mode until user turns them on
+    }
+  }
 
   // Skip all control processing if effect is running
   if (strip.isEffectRunning()) {
