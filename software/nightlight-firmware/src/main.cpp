@@ -31,7 +31,7 @@ unsigned long debounceDelay = 10; // Debounce time in milliseconds
 bool inLowBatteryMode = false;
 
 const float LOW_BATT_ENTER_THRESHOLD =
-    2.7; // Enter low battery mode below this voltage
+    2.73; // Enter low battery mode below this voltage
 const float LOW_BATT_EXIT_THRESHOLD =
     2.8; // Exit low battery mode above this voltage
 
@@ -63,6 +63,8 @@ void setup() {
 
 void loop() {
   unsigned long currentTime = millis();
+
+  // Check battery voltage less frequently
   if (currentTime - lastBatteryCheckTime >= BATTERY_CHECK_INTERVAL) {
     uint16_t rawADC = analogRead(battMeasure);
     batteryVoltage = (rawADC / 1023.0) * 5 * 2;
@@ -100,14 +102,12 @@ void loop() {
   bool isTouched = touchSensor.isTouched();
 
   // Check for long press and adjust brightness if active
-  if (touchSensor.isLongPress() && batteryVoltage > 2.8) {
+  if (touchSensor.isLongPress() &&
+      !inLowBatteryMode) { // <-- Change to use flag instead of voltage
 
     // Ensure lights are on when adjusting brightness
     if (!strip.getState()) {
-      // Serial.println("Turning LEDs ON for brightness adjustment");
       strip.setState(true);
-    } else {
-      // Serial.println("LEDs already ON");
     }
 
     // Get brightness value
@@ -117,16 +117,8 @@ void loop() {
     strip.setBrightness(wavebrightness);
   }
 
-  // Check battery voltage and set low battery mode flag
-  if (batteryVoltage <= 2.8) {
-    // If we just entered low battery mode, turn off the lights
-    if (!inLowBatteryMode) {
-      inLowBatteryMode = true;
-      strip.setState(
-          false); // Make sure lights are off when entering low battery mode
-      strip.lowBattery();
-    }
-
+  // Handle touch events based on battery status
+  if (inLowBatteryMode) { // <-- Check flag instead of voltage directly
     // Debounce the touch reading
     if (isTouched != lastTouchState) {
       lastDebounceTime = millis();
@@ -138,18 +130,10 @@ void loop() {
         currentTouchState = isTouched;
         if (isTouched == true) {
           strip.lowBattery(); // Just show low battery warning
-          // Don't turn lights back on afterward
         }
       }
     }
-  } else { // Normal operation (battery > 2.8V)
-    // Clear low battery mode flag if we're returning from low battery state
-    if (inLowBatteryMode) {
-      inLowBatteryMode = false;
-      // Keep lights off when coming out of low battery mode, until user turns
-      // them on
-    }
-
+  } else { // Normal operation (not in low battery mode)
     // Debounce the touch reading
     if (isTouched != lastTouchState) {
       lastDebounceTime = millis();

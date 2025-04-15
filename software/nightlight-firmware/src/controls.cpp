@@ -169,10 +169,10 @@ uint8_t TouchSensor::getTriangleWaveBrightness() {
 
     // Update brightness based on direction
     if (_isBrightnessIncreasing) {
-      if (_currentBrightness < 230 - brightnessStep) {
+      if (_currentBrightness < 220 - brightnessStep) {
         _currentBrightness += brightnessStep;
       } else {
-        _currentBrightness = 230;
+        _currentBrightness = 220;
         _isBrightnessIncreasing = false; // Reverse direction at maximum
       }
     } else {
