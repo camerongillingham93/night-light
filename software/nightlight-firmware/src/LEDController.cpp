@@ -3,7 +3,7 @@
 
 LEDController::LEDController(uint8_t pin, uint16_t numPixels)
     : strip(numPixels, pin, NEO_GRB + NEO_KHZ800), ledsOn(false),
-      brightness(255), red(255), green(180), blue(70), effectRunning(false),
+      brightness(255), red(160), green(255), blue(30), effectRunning(false),
       effectStartTime(0) {}
 
 void LEDController::begin() {
@@ -119,9 +119,9 @@ void LEDController::lowBattery(){
   uint8_t prevBlue = blue;
   uint8_t prevBrightness = brightness;
 
-  // Set color to red
-  red = 255;
-  green = 0;
+  //R and G are backwards???
+  red = 0;
+  green = 255;
   blue = 0;
 
   // Number of steps for fade in/out
@@ -186,9 +186,9 @@ void LEDController::fireflyEffect() {
   Serial.println("LED Controller: Starting firefly effect");
 
   // Colors for fireflies - warmish green-yellow
-  const uint8_t fireflyRed = 200;
-  const uint8_t fireflyGreen = 160;
-  const uint8_t fireflyBlue = 40;
+  const uint8_t fireflyRed = 160;
+  const uint8_t fireflyGreen = 255;
+  const uint8_t fireflyBlue = 30;
 
   // Effect duration and parameters
   const unsigned long effectDuration = 5000; // Run for 5 seconds

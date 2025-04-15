@@ -7,7 +7,7 @@
 #define sensePin PIN_PA5
 #define refPin PIN_PA6
 #define tiltSW PIN_PA7
-#define touchThreshold 10
+#define touchThreshold 5
 
 #define rstButton PIN_PB0
 #define battMeasure PIN_PA4
