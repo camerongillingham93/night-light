@@ -1,12 +1,45 @@
 # Nightlight Project - To-Do List 
-## April 15, 2025
 
+## April 17, 2025
+### Notes
+
+- Have tested the Power supply and LVD circuit extensivley and realzied I misinterptetted How the EN pin of the voltage regulator works. When EN is pulled LOW it disables the operation of the regulator but still allows the input battery voltage through. This will not work for my design as it will allow the MCU an uniterupted path to discharge the battery below a safe re-operable battery voltage. Need to find a method of switching out the battery BEFORE the regulator.
+
+- With this the program will just shut the device off when a threshold is reached instead of blinking red and entering into LOW_BATTERY mode as before. 
+
+- With this new design I would like to enter a sleep mode whenever the light is off and X amount of time is passed. The tilt switch will be used to wake the device and the LED's will somehow alert the user the device has came out of sleep.  
+
+### TODO
+### Hardware 
+- [ ] Test new low voltage disconnect option, research how to contruct the latching ciruit, simulate, test on breadboard. 
+  - P-Channel Mosfet to interupt battery power path, N-Channel Mosfet to control P-Channel. Will be turned off by a digital LOW on the MCU and turned on by the USB cable Vbus when the user plugs in the device to charge. 
+#### Still to do from Last time 
+- [ ] Complete final revision of PCB
+  - Remove RST switch
+  - Add reverse protection diode
+  - Change resistors for ADC to 1Mohm
+  - Look for other things to improve
+- [ ] Order boards 
+  - Gold plating, exposed vias
+  - Find a larger order quantity that is more cost effective
+  - Look into JLC assembly? 
+- [ ] Order Parts 
+  - Ensure there is enough inventory for 10 boards
+  - Look on ali for parts before mouser (Battery Holder, Tilt sw, etc.)
+### Software
+- [ ] Figure out sleep/standby mode when device is in "idle" state
+#### Still to do from last time 
+- [ ] features 
+  - Fade lights back in after firefly affect 
+  - Lengthen firefly effect
+
+## April 15, 2025
 ### Notes
 - Accidentally inserted battery backwards and burned up many components, tried re-working but decided to just assemble an entire new board. Have a working version of the firmware done, needs to be tested further and to find bugs and things to improve. Charge controller has yet to be fully tested. 
 
 ### TODO
 ### Hardware
-- [ ] Test Charge controller 
+- [X] Test Charge controller 
   - Complete multiple charge discharge cycles, and try to confirm charge current is around ~220MA
 - [ ] Complete final revision of PCB
   - Remove RST switch
@@ -20,14 +53,14 @@
 - [ ] Order Parts 
   - Ensure there is enough inventory for 10 boards
   - Look on ali for parts before mouser (Battery Holder, Tilt sw, etc.)
-- [ ] Lights on when supervisory cct opens regulator, current must be flowing into lights somehow
+- [X] Lights on when supervisory cct opens regulator, current must be flowing into lights somehow
 ### Software
-- [ ] Refactor
+- [X] Refactor
   - Before fixing bugs and adding new features do a thorough clean and refactor of current revision.
     - Add titles to each file
     - remove debug statements
     - remove unused code
-- [ ] Improve Battery Life and monitoring 
+- [X] Improve Battery Life and monitoring 
   - Add Low and high thresholds to enter and exit LOW battery mode
   - Only check batery voltage every minute (Should help with hystersis issue)
   - Lower the low threshhold, get closer to the point where the supervisory cct will cut power
@@ -40,7 +73,6 @@
   - Fade lights back in after firefly affect 
   - Lengthen firefly effect
 
-  - 
 
 
 ## April  12, 2025
