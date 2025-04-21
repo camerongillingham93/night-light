@@ -208,7 +208,10 @@
     "equivalence_files": []
   },
   "erc": {
-    "erc_exclusions": [],
+    "erc_exclusions": [
+      "power_pin_not_driven|1397000|558800|07938ee5-1b71-4bc7-a7f9-bf76094d56ce|00000000-0000-0000-0000-000000000000|||",
+      "power_pin_not_driven|1397000|914400|15215c71-0c1d-4df2-b10f-a745bdd78378|00000000-0000-0000-0000-000000000000|||"
+    ],
     "meta": {
       "version": 0
     },
@@ -485,26 +488,28 @@
     },
     "net_colors": null,
     "netclass_assignments": {
-      "Batt_M": "signal",
-      "LED_DATA": "signal",
+      "/Charge Controller/Vbatt": "power",
+      "/Charge Controller/Vbus": "power",
+      "/MCU/BATT_M": "signal",
+      "/MCU/FET_CONTROL": "signal",
+      "/MCU/LED_DATA": "signal",
+      "/MCU/PA_1": "signal",
+      "/MCU/PA_2": "signal",
+      "/MCU/PA_3": "signal",
+      "/MCU/RETURN": "signal",
+      "/MCU/RX": "signal",
+      "/MCU/SEND": "signal",
+      "/MCU/TILT_SW": "signal",
+      "/MCU/TX": "signal",
+      "/MCU/UPDI": "signal",
+      "Net-(D1-K)": "signal",
       "Net-(IC1-EN)": "power",
       "Net-(IC1-FB)": "power",
       "Net-(IC1-LX)": "power",
-      "Net-(IC2-VDD_1)": "power",
-      "Net-(J1-CC1)": "power",
-      "Net-(J1-CC2)": "power",
-      "Net-(J3-Pin_2)": "signal",
-      "PA_1": "signal",
-      "PA_2": "signal",
-      "PA_3": "signal",
-      "RST_SW": "signal",
-      "RX": "signal",
-      "Return": "signal",
-      "Send": "signal",
-      "TX": "signal",
-      "Tilt_SW": "signal",
-      "UPDI": "signal",
-      "VBATT": "power"
+      "Net-(J2-Pin_2)": "signal",
+      "Net-(J7-CC1)": "power",
+      "Net-(J7-CC2)": "power",
+      "Net-(Q1-G)": "signal"
     },
     "netclass_patterns": [
       {
@@ -578,6 +583,18 @@
     [
       "203033dd-6a13-4262-9a98-8b29445e90e8",
       ""
+    ],
+    [
+      "e6a767d4-c228-4ec6-8577-23f8c70359e3",
+      "Voltage Regulator"
+    ],
+    [
+      "45a5b876-32ff-4e38-a1cc-5d1e88f47531",
+      "Charge Controller"
+    ],
+    [
+      "60503468-aee4-4d11-84bc-8967446d1603",
+      "MCU"
     ]
   ],
   "text_variables": {}
