@@ -11,10 +11,10 @@
 
 ### TODO
 ### Hardware 
-- [ ] Test new low voltage disconnect option, research how to contruct the latching ciruit, simulate, test on breadboard. 
+- [X] Test new low voltage disconnect option, research how to contruct the latching ciruit, simulate, test on breadboard. 
   - P-Channel Mosfet to interupt battery power path, N-Channel Mosfet to control P-Channel. Will be turned off by a digital LOW on the MCU and turned on by the USB cable Vbus when the user plugs in the device to charge. 
 #### Still to do from Last time 
-- [ ] Complete final revision of PCB
+- [X] Complete final revision of PCB
   - Remove RST switch
   - Add reverse protection diode
   - Change resistors for ADC to 1Mohm
