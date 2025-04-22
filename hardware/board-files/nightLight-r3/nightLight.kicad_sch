@@ -97,7 +97,7 @@
   (symbol (lib_id "myDesigns:Firefly_Symbol") (at 25.4 189.23 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 086da8ef-2f4c-412e-95f1-91d967ddd9e8)
-    (property "Reference" "U9" (at 29.21 187.96 0)
+    (property "Reference" "U7" (at 29.21 187.96 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "~" (at 25.4 189.23 0)
@@ -112,7 +112,7 @@
     (instances
       (project "nightLight"
         (path "/203033dd-6a13-4262-9a98-8b29445e90e8"
-          (reference "U9") (unit 1)
+          (reference "U7") (unit 1)
         )
       )
     )
@@ -121,7 +121,7 @@
   (symbol (lib_id "myDesigns:Firefly_Symbol") (at 25.4 186.69 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 23b630c7-7ad9-4200-a8c8-fef10854b174)
-    (property "Reference" "U8" (at 29.21 185.42 0)
+    (property "Reference" "U6" (at 29.21 185.42 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "~" (at 25.4 186.69 0)
@@ -136,7 +136,7 @@
     (instances
       (project "nightLight"
         (path "/203033dd-6a13-4262-9a98-8b29445e90e8"
-          (reference "U8") (unit 1)
+          (reference "U6") (unit 1)
         )
       )
     )
@@ -145,7 +145,7 @@
   (symbol (lib_id "myDesigns:Firefly_Symbol") (at 25.4 181.61 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 2fcfc963-fc83-4e1c-bbad-ec6343f878b1)
-    (property "Reference" "U6" (at 29.21 180.34 0)
+    (property "Reference" "U4" (at 29.21 180.34 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "~" (at 25.4 181.61 0)
@@ -160,7 +160,7 @@
     (instances
       (project "nightLight"
         (path "/203033dd-6a13-4262-9a98-8b29445e90e8"
-          (reference "U6") (unit 1)
+          (reference "U4") (unit 1)
         )
       )
     )
@@ -193,7 +193,7 @@
   (symbol (lib_id "myDesigns:Firefly_Symbol") (at 25.4 179.07 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 7c57e85e-fdf8-485a-875e-732d48d4c5a8)
-    (property "Reference" "U5" (at 29.21 177.8 0)
+    (property "Reference" "U3" (at 29.21 177.8 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "~" (at 25.4 179.07 0)
@@ -208,7 +208,7 @@
     (instances
       (project "nightLight"
         (path "/203033dd-6a13-4262-9a98-8b29445e90e8"
-          (reference "U5") (unit 1)
+          (reference "U3") (unit 1)
         )
       )
     )
@@ -217,7 +217,7 @@
   (symbol (lib_id "myDesigns:Firefly_Symbol") (at 25.4 176.53 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 8cdaa3f5-3d17-4dd7-952a-b93e33a1818a)
-    (property "Reference" "U4" (at 29.21 175.26 0)
+    (property "Reference" "U2" (at 29.21 175.26 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "~" (at 25.4 176.53 0)
@@ -232,7 +232,7 @@
     (instances
       (project "nightLight"
         (path "/203033dd-6a13-4262-9a98-8b29445e90e8"
-          (reference "U4") (unit 1)
+          (reference "U2") (unit 1)
         )
       )
     )
@@ -241,7 +241,7 @@
   (symbol (lib_id "myDesigns:Firefly_Symbol") (at 25.4 173.99 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 8d523999-5a22-4a2d-9cb8-eea8de6b8685)
-    (property "Reference" "U3" (at 29.21 172.72 0)
+    (property "Reference" "U1" (at 29.21 172.72 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "~" (at 25.4 173.99 0)
@@ -256,7 +256,7 @@
     (instances
       (project "nightLight"
         (path "/203033dd-6a13-4262-9a98-8b29445e90e8"
-          (reference "U3") (unit 1)
+          (reference "U1") (unit 1)
         )
       )
     )
@@ -265,7 +265,7 @@
   (symbol (lib_id "myDesigns:Firefly_Symbol") (at 25.4 184.15 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid a6914bbc-5743-4a15-996a-17450c64cff9)
-    (property "Reference" "U7" (at 29.21 182.88 0)
+    (property "Reference" "U5" (at 29.21 182.88 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "~" (at 25.4 184.15 0)
@@ -280,7 +280,7 @@
     (instances
       (project "nightLight"
         (path "/203033dd-6a13-4262-9a98-8b29445e90e8"
-          (reference "U7") (unit 1)
+          (reference "U5") (unit 1)
         )
       )
     )

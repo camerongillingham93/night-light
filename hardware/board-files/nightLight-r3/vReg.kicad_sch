@@ -1075,7 +1075,7 @@
   (symbol (lib_id "power:GND") (at 168.91 139.7 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 03b4498f-c4e9-4174-9777-3275dc77ac3e)
-    (property "Reference" "#PWR05" (at 168.91 146.05 0)
+    (property "Reference" "#PWR07" (at 168.91 146.05 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 168.91 144.78 0)
@@ -1091,7 +1091,7 @@
     (instances
       (project "nightLight"
         (path "/203033dd-6a13-4262-9a98-8b29445e90e8/e6a767d4-c228-4ec6-8577-23f8c70359e3"
-          (reference "#PWR05") (unit 1)
+          (reference "#PWR07") (unit 1)
         )
       )
     )
@@ -1100,7 +1100,7 @@
   (symbol (lib_id "power:GND") (at 196.85 120.65 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 03bca4c6-006b-4f57-845a-8545c2560870)
-    (property "Reference" "#PWR08" (at 196.85 114.3 0)
+    (property "Reference" "#PWR05" (at 196.85 114.3 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 196.85 115.57 0)
@@ -1116,7 +1116,7 @@
     (instances
       (project "nightLight"
         (path "/203033dd-6a13-4262-9a98-8b29445e90e8/e6a767d4-c228-4ec6-8577-23f8c70359e3"
-          (reference "#PWR08") (unit 1)
+          (reference "#PWR05") (unit 1)
         )
       )
     )
@@ -1125,7 +1125,7 @@
   (symbol (lib_id "Device:R_US") (at 161.29 119.38 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 04043475-f62e-41a4-ba37-20bc2314fd74)
-    (property "Reference" "R1" (at 161.29 114.3 90)
+    (property "Reference" "R4" (at 161.29 114.3 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "750K" (at 161.29 116.84 90)
@@ -1142,7 +1142,7 @@
     (instances
       (project "nightLight"
         (path "/203033dd-6a13-4262-9a98-8b29445e90e8/e6a767d4-c228-4ec6-8577-23f8c70359e3"
-          (reference "R1") (unit 1)
+          (reference "R4") (unit 1)
         )
       )
     )
@@ -1151,7 +1151,7 @@
   (symbol (lib_id "power:GND") (at 146.05 139.7 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 0f162979-676f-4b66-a685-6248178c9dd9)
-    (property "Reference" "#PWR02" (at 146.05 146.05 0)
+    (property "Reference" "#PWR06" (at 146.05 146.05 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 146.05 144.78 0)
@@ -1167,7 +1167,7 @@
     (instances
       (project "nightLight"
         (path "/203033dd-6a13-4262-9a98-8b29445e90e8/e6a767d4-c228-4ec6-8577-23f8c70359e3"
-          (reference "#PWR02") (unit 1)
+          (reference "#PWR06") (unit 1)
         )
       )
     )
@@ -1176,7 +1176,7 @@
   (symbol (lib_id "power:GND") (at 115.57 87.63 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 156c5fd8-311c-47c4-922b-2f9052a2b126)
-    (property "Reference" "#PWR03" (at 115.57 93.98 0)
+    (property "Reference" "#PWR02" (at 115.57 93.98 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 115.57 92.71 0)
@@ -1192,7 +1192,7 @@
     (instances
       (project "nightLight"
         (path "/203033dd-6a13-4262-9a98-8b29445e90e8/e6a767d4-c228-4ec6-8577-23f8c70359e3"
-          (reference "#PWR03") (unit 1)
+          (reference "#PWR02") (unit 1)
         )
       )
     )
@@ -1201,7 +1201,7 @@
   (symbol (lib_id "Device:R_US") (at 90.17 71.12 270) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 2c0108e8-8c93-4895-802b-a6e1788af9a8)
-    (property "Reference" "R4" (at 90.17 76.2 90)
+    (property "Reference" "R1" (at 90.17 76.2 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "10K" (at 90.17 73.66 90)
@@ -1218,7 +1218,7 @@
     (instances
       (project "nightLight"
         (path "/203033dd-6a13-4262-9a98-8b29445e90e8/e6a767d4-c228-4ec6-8577-23f8c70359e3"
-          (reference "R4") (unit 1)
+          (reference "R1") (unit 1)
         )
       )
     )
@@ -1253,7 +1253,7 @@
   (symbol (lib_id "Device:C") (at 146.05 132.08 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 5908ed13-66ec-44f9-a6b6-bcaed33353e4)
-    (property "Reference" "C1" (at 149.86 130.81 0)
+    (property "Reference" "C3" (at 149.86 130.81 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "22uF" (at 149.86 133.35 0)
@@ -1270,7 +1270,7 @@
     (instances
       (project "nightLight"
         (path "/203033dd-6a13-4262-9a98-8b29445e90e8/e6a767d4-c228-4ec6-8577-23f8c70359e3"
-          (reference "C1") (unit 1)
+          (reference "C3") (unit 1)
         )
       )
     )
@@ -1279,7 +1279,7 @@
   (symbol (lib_id "power:+5V") (at 224.79 111.76 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 5f5ddd53-be5a-454d-99d1-b90ba8e792a6)
-    (property "Reference" "#PWR011" (at 224.79 115.57 0)
+    (property "Reference" "#PWR04" (at 224.79 115.57 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+5V" (at 224.79 106.68 0)
@@ -1295,7 +1295,7 @@
     (instances
       (project "nightLight"
         (path "/203033dd-6a13-4262-9a98-8b29445e90e8/e6a767d4-c228-4ec6-8577-23f8c70359e3"
-          (reference "#PWR011") (unit 1)
+          (reference "#PWR04") (unit 1)
         )
       )
     )
@@ -1304,7 +1304,7 @@
   (symbol (lib_id "Device:R_US") (at 115.57 78.74 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 5f71499d-f38e-4cf3-868b-5167254d76da)
-    (property "Reference" "R5" (at 120.65 78.74 90)
+    (property "Reference" "R3" (at 120.65 78.74 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "1M" (at 118.11 78.74 90)
@@ -1321,7 +1321,7 @@
     (instances
       (project "nightLight"
         (path "/203033dd-6a13-4262-9a98-8b29445e90e8/e6a767d4-c228-4ec6-8577-23f8c70359e3"
-          (reference "R5") (unit 1)
+          (reference "R3") (unit 1)
         )
       )
     )
@@ -1377,7 +1377,7 @@
   (symbol (lib_id "power:GND") (at 123.19 87.63 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 676c7c05-e130-4cd5-8a92-93727d490b75)
-    (property "Reference" "#PWR01" (at 123.19 93.98 0)
+    (property "Reference" "#PWR03" (at 123.19 93.98 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 123.19 92.71 0)
@@ -1393,7 +1393,7 @@
     (instances
       (project "nightLight"
         (path "/203033dd-6a13-4262-9a98-8b29445e90e8/e6a767d4-c228-4ec6-8577-23f8c70359e3"
-          (reference "#PWR01") (unit 1)
+          (reference "#PWR03") (unit 1)
         )
       )
     )
@@ -1438,7 +1438,7 @@
   (symbol (lib_id "Device:C") (at 218.44 123.19 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 73bae7c4-f715-46f0-805f-2241f9bdb1fb)
-    (property "Reference" "C3" (at 220.98 118.11 0)
+    (property "Reference" "C2" (at 220.98 118.11 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "22uF" (at 220.98 120.65 0)
@@ -1455,7 +1455,7 @@
     (instances
       (project "nightLight"
         (path "/203033dd-6a13-4262-9a98-8b29445e90e8/e6a767d4-c228-4ec6-8577-23f8c70359e3"
-          (reference "C3") (unit 1)
+          (reference "C2") (unit 1)
         )
       )
     )
@@ -1464,7 +1464,7 @@
   (symbol (lib_id "power:GND") (at 97.79 87.63 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 8a9f7eb2-d9f6-4089-b021-de056372f551)
-    (property "Reference" "#PWR04" (at 97.79 93.98 0)
+    (property "Reference" "#PWR01" (at 97.79 93.98 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 97.79 92.71 0)
@@ -1480,7 +1480,7 @@
     (instances
       (project "nightLight"
         (path "/203033dd-6a13-4262-9a98-8b29445e90e8/e6a767d4-c228-4ec6-8577-23f8c70359e3"
-          (reference "#PWR04") (unit 1)
+          (reference "#PWR01") (unit 1)
         )
       )
     )
@@ -1489,7 +1489,7 @@
   (symbol (lib_id "BAT54C:BAT54C") (at 78.74 71.12 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid aea71ab0-6e26-4a8d-a9d9-5b3c25b02bfb)
-    (property "Reference" "D3" (at 76.2 69.85 0)
+    (property "Reference" "D1" (at 76.2 69.85 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "BAT54C" (at 76.2 72.39 0)
@@ -1531,7 +1531,7 @@
     (instances
       (project "nightLight"
         (path "/203033dd-6a13-4262-9a98-8b29445e90e8/e6a767d4-c228-4ec6-8577-23f8c70359e3"
-          (reference "D3") (unit 1)
+          (reference "D1") (unit 1)
         )
       )
     )
@@ -1540,7 +1540,7 @@
   (symbol (lib_id "Device:C") (at 97.79 78.74 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid aff2dca9-58b1-4e12-bbda-329c91bdfdcf)
-    (property "Reference" "C2" (at 100.33 73.66 0)
+    (property "Reference" "C1" (at 100.33 73.66 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "0.1uF" (at 100.33 76.2 0)
@@ -1557,7 +1557,7 @@
     (instances
       (project "nightLight"
         (path "/203033dd-6a13-4262-9a98-8b29445e90e8/e6a767d4-c228-4ec6-8577-23f8c70359e3"
-          (reference "C2") (unit 1)
+          (reference "C1") (unit 1)
         )
       )
     )
@@ -1602,7 +1602,7 @@
   (symbol (lib_id "Device:R_US") (at 208.28 123.19 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid dda91d50-c5b3-4065-9804-7c26cf985954)
-    (property "Reference" "R3" (at 203.2 123.19 90)
+    (property "Reference" "R5" (at 203.2 123.19 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "750K" (at 205.74 123.19 90)
@@ -1619,7 +1619,7 @@
     (instances
       (project "nightLight"
         (path "/203033dd-6a13-4262-9a98-8b29445e90e8/e6a767d4-c228-4ec6-8577-23f8c70359e3"
-          (reference "R3") (unit 1)
+          (reference "R5") (unit 1)
         )
       )
     )
@@ -1628,7 +1628,7 @@
   (symbol (lib_id "power:GND") (at 218.44 139.7 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid e6542320-8b37-421f-a8b5-bdc018a15be6)
-    (property "Reference" "#PWR010" (at 218.44 146.05 0)
+    (property "Reference" "#PWR09" (at 218.44 146.05 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 218.44 144.78 0)
@@ -1644,7 +1644,7 @@
     (instances
       (project "nightLight"
         (path "/203033dd-6a13-4262-9a98-8b29445e90e8/e6a767d4-c228-4ec6-8577-23f8c70359e3"
-          (reference "#PWR010") (unit 1)
+          (reference "#PWR09") (unit 1)
         )
       )
     )
@@ -1653,7 +1653,7 @@
   (symbol (lib_id "Device:R_US") (at 208.28 135.89 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid e7995109-2611-403d-8935-afe5fb0a5cf8)
-    (property "Reference" "R7" (at 203.2 135.89 90)
+    (property "Reference" "R6" (at 203.2 135.89 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "100K" (at 205.74 135.89 90)
@@ -1670,7 +1670,7 @@
     (instances
       (project "nightLight"
         (path "/203033dd-6a13-4262-9a98-8b29445e90e8/e6a767d4-c228-4ec6-8577-23f8c70359e3"
-          (reference "R7") (unit 1)
+          (reference "R6") (unit 1)
         )
       )
     )
@@ -1720,7 +1720,7 @@
   (symbol (lib_id "power:GND") (at 208.28 139.7 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid fa842a08-727e-4f14-bf62-65c6c366190a)
-    (property "Reference" "#PWR09" (at 208.28 146.05 0)
+    (property "Reference" "#PWR08" (at 208.28 146.05 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 208.28 144.78 0)
@@ -1736,7 +1736,7 @@
     (instances
       (project "nightLight"
         (path "/203033dd-6a13-4262-9a98-8b29445e90e8/e6a767d4-c228-4ec6-8577-23f8c70359e3"
-          (reference "#PWR09") (unit 1)
+          (reference "#PWR08") (unit 1)
         )
       )
     )
