@@ -22,10 +22,10 @@
 #define MAX_BRIGHTNESS 255
 
 // Power management settings
-#define POWER_CONTROL_PIN PIN_PB1
+#define POWER_CONTROL_PIN PIN_PA3
 #define SLEEP_TIMEOUT_MS 30000         // 30s of inactivity before sleep
-#define CRITICAL_BATTERY_THRESHOLD 2.7 // Volts
-#define WAKEUP_BATTERY_THRESHOLD 2.9   // Volts (with hysteresis)
+#define CRITICAL_BATTERY_THRESHOLD 3.0 // Volts
+#define WAKEUP_BATTERY_THRESHOLD 3.1   // Volts (with hysteresis)
 #define WAKEUP_TILT_DURATION 3000      // 3 seconds upside down to wake up
 
 #endif
