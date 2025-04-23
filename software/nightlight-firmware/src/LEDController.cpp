@@ -135,6 +135,54 @@ void LEDController::lowBattery() {
   updateStrip();
 }
 
+void LEDController::wakeUpEffect() {
+  // Mark effect as running
+  effectRunning = true;
+
+  // Save current state and settings
+  bool prevState = ledsOn;
+  uint8_t prevBrightness = brightness;
+
+  // Use the default warm color (already set in red, green, blue)
+  // No need to change the color
+
+  // Start from complete darkness
+  brightness = 0;
+  ledsOn = true;
+  updateStrip();
+
+  // Fade in gently
+  for (int i = 0; i <= 180; i += 5) {
+    brightness = i;
+    updateStrip();
+    delay(20);
+  }
+
+  // Short pause at peak brightness
+  delay(300);
+
+  // Keep light on or fade out based on previous state
+  if (!prevState) {
+    // Fade out if we're not supposed to stay on
+    for (int i = 180; i >= 0; i -= 5) {
+      brightness = i;
+      updateStrip();
+      delay(15);
+    }
+    ledsOn = false;
+    updateStrip();
+  }
+
+  // Restore original brightness if staying on
+  if (prevState) {
+    brightness = prevBrightness;
+    updateStrip();
+  }
+
+  // Mark effect as finished
+  effectRunning = false;
+}
+
 void LEDController::fireflyEffect() {
   // Save the current state to restore later
   bool previousState = ledsOn;
