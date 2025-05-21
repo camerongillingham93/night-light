@@ -59,7 +59,6 @@
         "clearance|150000000|91500000|0d6388b2-b89e-4851-b128-eee1060ed043|795c9c78-a6f6-4be7-a932-c2373500bf3f",
         "footprint_type_mismatch|139000000|131000000|79383d4e-9748-4d83-b34d-6e54092a3892|00000000-0000-0000-0000-000000000000",
         "footprint_type_mismatch|150000000|100000000|f38ab6e9-067e-4c65-875a-73eb779e18ab|00000000-0000-0000-0000-000000000000",
-        "isolated_copper|150176671|87369850|2201a911-fec0-4ae4-9d34-5086b2730bb8|00000000-0000-0000-0000-000000000000",
         "lib_footprint_mismatch|173637750|85000000|77fa0004-4b7b-47a0-a4b8-a092e6ff60e4|00000000-0000-0000-0000-000000000000",
         "silk_edge_clearance|192376169|103241954|d1d00aed-eea3-42b0-9853-401455030554|475c815e-15a0-404a-800b-4dd5a979de2a",
         "silk_edge_clearance|192454785|98040104|d1d00aed-eea3-42b0-9853-401455030554|01a48545-4df9-4c39-ad59-5916bbcc8379",
@@ -485,7 +484,6 @@
     },
     "net_colors": null,
     "netclass_assignments": {
-      "/Charge Controller/Vbatt": "power",
       "/Charge Controller/Vbus": "power",
       "/MCU/BATT_M": "signal",
       "/MCU/FET_CONTROL": "signal",
@@ -507,7 +505,8 @@
       "Net-(J1-CC1)": "power",
       "Net-(J1-CC2)": "power",
       "Net-(J5-Pin_2)": "signal",
-      "Net-(Q1-G)": "signal"
+      "Net-(Q1-G)": "signal",
+      "Net-(Q2-D)": "power"
     },
     "netclass_patterns": [
       {
