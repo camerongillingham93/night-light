@@ -1,8 +1,8 @@
 #ifndef CONTROLS_H
 #define CONTROLS_H
 
-#include <Arduino.h>
 #include "config.h"
+#include <Arduino.h>
 
 class TouchSensor {
 private:

@@ -15,6 +15,7 @@ public:
   void updateStrip();
   void lowBattery();
   void fireflyEffect();
+  void wakeUpEffect();
   bool isEffectRunning(); // New method to check effect status
   // Add this to LEDController.h in the public section:
   bool getState() const { return ledsOn; }
