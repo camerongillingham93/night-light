@@ -27,7 +27,8 @@ ISR(PORTA_PORT_vect) {
 PowerController::PowerController(uint8_t powerControlPin,
                                  LEDController &ledController)
     : _powerControlPin(powerControlPin), _ledController(ledController),
-      _lastActivityTime(0), _inactivityTimeout(300000), // Default 5 minutes
+      _lastActivityTime(0),
+      _inactivityTimeout(SLEEP_TIMEOUT_MS), // Default 5 minutes
       _sleepModeEnabled(true), _isInSleepMode(false), _lastBatteryVoltage(0.0),
       _criticalBatteryThreshold(3), // V - shutdown threshold
       _wakeupBatteryThreshold(3.1), // V - safe to wake up threshold
