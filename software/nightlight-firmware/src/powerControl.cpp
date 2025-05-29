@@ -56,18 +56,9 @@ void PowerController::update() {
 
   // Check if we should enter sleep mode due to inactivity
   if (!_isInSleepMode &&
-      (currentTime - _lastActivityTime) > _inactivityTimeout) {
+      (currentTime - _lastActivityTime) > _inactivityTimeout && !_ledController.ledsOn ) {
     enterSleepMode();
   }
-
-  // If we're in sleep mode, then most of this won't execute because CPU is
-  // halted It will only execute after a wake-up event
-
-  // If we're awake, check for the upside-down wake-up trigger
-  // This is a backup in case the interrupt-based wake-up doesn't work
-  //   if (_isInSleepMode) {
-  //     checkForWakeUpTilt();
-  //   }
 }
 
 void PowerController::enterSleepMode() {
@@ -110,7 +101,7 @@ void PowerController::wakeUp() {
 
   // Trigger wake-up lighting effect
   // triggerWakeUpEffect();
-  _ledController.fireflyEffect();
+  _ledController.wakeEffect();
 }
 
 bool PowerController::isInSleepMode() const { return _isInSleepMode; }
