@@ -135,53 +135,6 @@ void LEDController::lowBattery() {
   updateStrip();
 }
 
-void LEDController::wakeUpEffect() {
-  // Mark effect as running
-  effectRunning = true;
-
-  // Save current state and settings
-  bool prevState = ledsOn;
-  uint8_t prevBrightness = brightness;
-
-  // Use the default warm color (already set in red, green, blue)
-  // No need to change the color
-
-  // Start from complete darkness
-  brightness = 0;
-  ledsOn = true;
-  updateStrip();
-
-  // Fade in gently
-  for (int i = 0; i <= 180; i += 5) {
-    brightness = i;
-    updateStrip();
-    delay(20);
-  }
-
-  // Short pause at peak brightness
-  delay(300);
-
-  // Keep light on or fade out based on previous state
-  if (!prevState) {
-    // Fade out if we're not supposed to stay on
-    for (int i = 180; i >= 0; i -= 5) {
-      brightness = i;
-      updateStrip();
-      delay(15);
-    }
-    ledsOn = false;
-    updateStrip();
-  }
-
-  // Restore original brightness if staying on
-  if (prevState) {
-    brightness = prevBrightness;
-    updateStrip();
-  }
-
-  // Mark effect as finished
-  effectRunning = false;
-}
 
 void LEDController::fireflyEffect() {
   // Save the current state to restore later
@@ -318,5 +271,78 @@ void LEDController::fireflyEffect() {
   effectRunning = false;
 
   // Update LEDs with restored settings
+  updateStrip();
+}
+
+void LEDController::wakeEffect() {
+  // Save the current state to restore later
+  bool previousState = ledsOn;
+
+  // Set effect running flag
+  effectRunning = true;
+
+  // Heartbeat pulse parameters
+  const int fadeSteps = 30;
+  const int fastPulseDelay = 8; // Quick fade for heartbeat effect
+  const int holdDelay = 50;     // Brief hold at peak
+  const int pauseDelay = 200;   // Pause between pulses
+
+  // Turn all LEDs off initially
+  ledsOn = false;
+  updateStrip();
+
+  // Pulse three times like a heartbeat
+  for (int pulse = 0; pulse < 3; pulse++) {
+    // Fade in
+    for (int i = 0; i < fadeSteps; i++) {
+      uint8_t pulseBrightness = (i * brightness) / fadeSteps;
+
+      // Apply brightness to each color component
+      uint8_t r = (red * pulseBrightness) / 255;
+      uint8_t g = (green * pulseBrightness) / 255;
+      uint8_t b = (blue * pulseBrightness) / 255;
+      uint32_t color = strip.Color(r, g, b);
+
+      for (int j = 0; j < strip.numPixels(); j++) {
+        strip.setPixelColor(j, color);
+      }
+      strip.show();
+      delay(fastPulseDelay);
+    }
+
+    // Hold at full brightness briefly
+    delay(holdDelay);
+
+    // Only fade out if it's not the last pulse
+    if (pulse < 2) {
+      // Fade out
+      for (int i = fadeSteps - 1; i >= 0; i--) {
+        uint8_t pulseBrightness = (i * brightness) / fadeSteps;
+
+        // Apply brightness to each color component
+        uint8_t r = (red * pulseBrightness) / 255;
+        uint8_t g = (green * pulseBrightness) / 255;
+        uint8_t b = (blue * pulseBrightness) / 255;
+        uint32_t color = strip.Color(r, g, b);
+
+        for (int j = 0; j < strip.numPixels(); j++) {
+          strip.setPixelColor(j, color);
+        }
+        strip.show();
+        delay(fastPulseDelay);
+      }
+
+      // Pause between pulses
+      delay(pauseDelay);
+    }
+  }
+
+  // Don't restore color/brightness since we used the original values
+  ledsOn = true; // Turn LEDs on after wake effect
+
+  // End effect
+  effectRunning = false;
+
+  // Update LEDs with current settings - all LEDs should now be on
   updateStrip();
 }

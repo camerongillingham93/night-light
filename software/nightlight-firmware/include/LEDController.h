@@ -15,14 +15,14 @@ public:
   void updateStrip();
   void lowBattery();
   void fireflyEffect();
-  void wakeUpEffect();
+  void wakeEffect();
   bool isEffectRunning(); // New method to check effect status
   // Add this to LEDController.h in the public section:
   bool getState() const { return ledsOn; }
+  bool ledsOn;
 
 private:
   tinyNeoPixel strip;
-  bool ledsOn;
   uint8_t brightness;
   uint8_t red;
   uint8_t green;
