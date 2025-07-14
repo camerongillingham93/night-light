@@ -30,8 +30,8 @@ PowerController::PowerController(uint8_t powerControlPin,
       _lastActivityTime(0),
       _inactivityTimeout(SLEEP_TIMEOUT_MS), // Default 5 minutes
       _sleepModeEnabled(true), _isInSleepMode(false), _lastBatteryVoltage(0.0),
-      _criticalBatteryThreshold(3), // V - shutdown threshold
-      _wakeupBatteryThreshold(3.1), // V - safe to wake up threshold
+      _criticalBatteryThreshold(2.8), // V - shutdown threshold
+      _wakeupBatteryThreshold(2.9),   // V - safe to wake up threshold
       _batteryLow(false), _upsideDownDetected(false), _upsideDownStartTime(0) {}
 
 void PowerController::begin() {
@@ -56,7 +56,8 @@ void PowerController::update() {
 
   // Check if we should enter sleep mode due to inactivity
   if (!_isInSleepMode &&
-      (currentTime - _lastActivityTime) > _inactivityTimeout && !_ledController.ledsOn) {
+      (currentTime - _lastActivityTime) > _inactivityTimeout &&
+      !_ledController.ledsOn) {
     enterSleepMode();
   }
 }
@@ -136,7 +137,7 @@ void PowerController::shutdownPower() {
   // Pull power control pin LOW to turn off MOSFET
   digitalWrite(_powerControlPin, LOW);
 
-  // Note: After this, the device should be powered off 
+  // Note: After this, the device should be powered off
   // It will only turn back on when external power is applied
 }
 

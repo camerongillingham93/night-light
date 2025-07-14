@@ -9,7 +9,6 @@
 #define tiltSW PIN_PB0
 #define touchThreshold 5
 
-//#define rstButton PIN_PB0
 #define battMeasure PIN_PA4
 
 // NeoPixel LED Strip Setup
@@ -23,16 +22,18 @@
 
 // Power management settings
 #define POWER_CONTROL_PIN PIN_PA7
-#define SLEEP_TIMEOUT_MS 180000        // 30s of inactivity before sleep
-#define CRITICAL_BATTERY_THRESHOLD 3.0 // Volts
-#define WAKEUP_BATTERY_THRESHOLD 3.1   // Volts (with hysteresis)
+#define SLEEP_TIMEOUT_MS 180000        // 3 minutes of inactivity before sleep
+#define CRITICAL_BATTERY_THRESHOLD 2.8 // Volts - hard shutdown
+#define WAKEUP_BATTERY_THRESHOLD 2.9   // Volts - can wake up again (hysteresis)
 #define WAKEUP_TILT_DURATION 3000      // 3 seconds upside down to wake up
 
 #endif
 
 // **IMPORTANT: Double-check these pin numbers against your ATtiny1614 board's
 // pinout!**
-// sensePin: PA6
-// refPin:   PA5
-// tiltSW:   PA7
+// sensePin: PA5
+// refPin:   PA6
+// tiltSW:   PB0
+// battMeasure: PA4
 // LED_PIN:  PB1
+// POWER_CONTROL_PIN: PA7
