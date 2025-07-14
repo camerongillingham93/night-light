@@ -23,7 +23,8 @@
 TouchSensor touchSensor(sensePin, refPin, touchThreshold, 5);
 LEDController strip(LED_PIN, NUM_PIXELS);
 Shake shake(tiltSW);
-PowerController powerControl(POWER_CONTROL_PIN,strip); // Create power controller instance here
+PowerController powerControl(POWER_CONTROL_PIN,
+                             strip); // Create power controller instance here
 
 // Variables for touch detection
 bool lastTouchState = false;

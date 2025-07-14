@@ -136,7 +136,7 @@ void PowerController::shutdownPower() {
   // Pull power control pin LOW to turn off MOSFET
   digitalWrite(_powerControlPin, LOW);
 
-  // Note: After this, the device should be powered off
+  // Note: After this, the device should be powered off 
   // It will only turn back on when external power is applied
 }
 

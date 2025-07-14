@@ -6,10 +6,10 @@
 // Touch Sensor Pins and Threshold
 #define sensePin PIN_PA5
 #define refPin PIN_PA6
-#define tiltSW PIN_PA7
+#define tiltSW PIN_PB0
 #define touchThreshold 5
 
-#define rstButton PIN_PB0
+//#define rstButton PIN_PB0
 #define battMeasure PIN_PA4
 
 // NeoPixel LED Strip Setup
@@ -22,7 +22,7 @@
 #define MAX_BRIGHTNESS 255
 
 // Power management settings
-#define POWER_CONTROL_PIN PIN_PA3
+#define POWER_CONTROL_PIN PIN_PA7
 #define SLEEP_TIMEOUT_MS 180000        // 30s of inactivity before sleep
 #define CRITICAL_BATTERY_THRESHOLD 3.0 // Volts
 #define WAKEUP_BATTERY_THRESHOLD 3.1   // Volts (with hysteresis)
