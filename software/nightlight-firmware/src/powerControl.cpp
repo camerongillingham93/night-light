@@ -30,8 +30,10 @@ PowerController::PowerController(uint8_t powerControlPin,
       _lastActivityTime(0),
       _inactivityTimeout(SLEEP_TIMEOUT_MS), // Default 5 minutes
       _sleepModeEnabled(true), _isInSleepMode(false), _lastBatteryVoltage(0.0),
-      _criticalBatteryThreshold(2.8), // V - shutdown threshold
-      _wakeupBatteryThreshold(2.9),   // V - safe to wake up threshold
+      _criticalBatteryThreshold(
+          CRITICAL_BATTERY_THRESHOLD), // V - shutdown threshold
+      _wakeupBatteryThreshold(
+          WAKEUP_BATTERY_THRESHOLD), // V - safe to wake up threshold
       _batteryLow(false), _upsideDownDetected(false), _upsideDownStartTime(0) {}
 
 void PowerController::begin() {
