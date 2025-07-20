@@ -2,9 +2,10 @@
  * Night Light Firmware V1 - Power Control Module Implementation
  * -----------------------------------------------------------
  * Implements power management features for battery-powered night light
+ * with periodic battery monitoring during sleep
  *
  * @authors Cameron Gillingham, Claude AI
- * @version 1.0
+ * @version 1.2 - Fixed tilt wake-up conflicts with RTC
  */
 
 #include "powerControl.h"
@@ -12,16 +13,26 @@
 #include "config.h"
 #include <Arduino.h>
 
-// Flag used by interrupt handler to communicate with main code
+// Flags used by interrupt handlers to communicate with main code
 volatile bool wakeFlag = false;
+volatile bool rtcWakeFlag = false;
 
-// ISR for pin change - keep it minimal
-ISR(PORTA_PORT_vect) {
+// ISR for pin change - FIXED: Now uses PORTB for tiltSW (PB0)
+ISR(PORTB_PORT_vect) {
   // Just set the flag - don't do any processing in ISR
   wakeFlag = true;
 
+  // Clear the interrupt flag for PB0
+  PORTB.INTFLAGS = PORT_INT0_bm; // Clear PB0 interrupt flag
+}
+
+// ISR for RTC periodic interrupt
+ISR(RTC_PIT_vect) {
+  // Set flag for battery check
+  rtcWakeFlag = true;
+
   // Clear the interrupt flag
-  PORTA.INTFLAGS = PORT_INT7_bm; // Assuming tiltSW is on PA7
+  RTC.PITINTFLAGS = RTC_PI_bm;
 }
 
 PowerController::PowerController(uint8_t powerControlPin,
@@ -34,7 +45,8 @@ PowerController::PowerController(uint8_t powerControlPin,
           CRITICAL_BATTERY_THRESHOLD), // V - shutdown threshold
       _wakeupBatteryThreshold(
           WAKEUP_BATTERY_THRESHOLD), // V - safe to wake up threshold
-      _batteryLow(false), _upsideDownDetected(false), _upsideDownStartTime(0) {}
+      _batteryLow(false), _upsideDownDetected(false), _upsideDownStartTime(0),
+      _rtcWakeupCounter(0) {}
 
 void PowerController::begin() {
   // Initialize power control pin to active HIGH (keeping power on)
@@ -69,42 +81,120 @@ void PowerController::enterSleepMode() {
   if (_isInSleepMode)
     return;
 
-  _isInSleepMode = true;
+  Serial.println("Entering sleep mode...");
+  Serial.flush(); // Ensure message is sent before sleep
 
-  // Configure wake-up interrupt
+  _isInSleepMode = true;
+  _rtcWakeupCounter = 0; // Reset counter when entering sleep
+
+  // Configure wake-up interrupt and RTC
   configureInterrupts(true);
+  configureRTCWakeup(true);
 
   // Prepare for sleep mode
   set_sleep_mode(SLEEP_MODE_PWR_DOWN);
 
-  // Enter sleep mode
-  sleep_enable();
-  sei();       // Ensure interrupts are enabled
-  sleep_cpu(); // Enter sleep mode
-
-  // The following code runs after wake-up
-  sleep_disable();
-
-  // Manually check wake-up condition and process if necessary
-  if (wakeFlag) {
-    wakeUp();
+  // Sleep loop - stay in sleep until tilt wake-up or critical battery
+  while (_isInSleepMode) {
+    // Clear flags before sleep
     wakeFlag = false;
+    rtcWakeFlag = false;
+
+    Serial.println("Going to sleep...");
+    Serial.flush();
+
+    // Enter sleep mode
+    sleep_enable();
+    sei();       // Ensure interrupts are enabled
+    sleep_cpu(); // Enter sleep mode
+    sleep_disable();
+
+    Serial.print("Woke up - wakeFlag: ");
+    Serial.print(wakeFlag);
+    Serial.print(", rtcWakeFlag: ");
+    Serial.println(rtcWakeFlag);
+
+    // Check which interrupt woke us up
+    if (wakeFlag) {
+      Serial.println("Tilt wake-up detected, checking validity...");
+      // Tilt sensor wake-up - check if it's a valid wake-up tilt
+      if (checkForWakeUpTilt()) {
+        Serial.println("Valid tilt wake-up confirmed!");
+        wakeUp();
+        break;
+      }
+      Serial.println("Invalid tilt wake-up, continuing sleep...");
+      // If not a valid wake-up tilt, continue sleeping
+    }
+
+    if (rtcWakeFlag) {
+      Serial.println("RTC wake-up for battery check...");
+      // RTC wake-up - check battery
+      checkBatteryDuringSleep();
+      // If battery is critical, we won't return from checkBatteryDuringSleep()
+      // Continue sleeping if battery is okay
+    }
   }
+
+  // Disable RTC when exiting sleep
+  configureRTCWakeup(false);
 }
 
 void PowerController::wakeUp() {
+  Serial.println("Waking up from sleep mode...");
+
   // Exit sleep mode
   _isInSleepMode = false;
 
-  // Disable wake-up interrupt
+  // Disable wake-up interrupt and RTC
   configureInterrupts(false);
+  configureRTCWakeup(false);
 
   // Register activity
   registerActivity();
 
   // Trigger wake-up lighting effect
-  // triggerWakeUpEffect();
   _ledController.wakeEffect();
+}
+
+void PowerController::checkBatteryDuringSleep() {
+  _rtcWakeupCounter++;
+
+  // Only check battery every 10 minutes (600 wake-ups at 1-second intervals)
+  if (_rtcWakeupCounter >= 600) { // Check every 10 minutes
+    _rtcWakeupCounter = 0;
+
+    Serial.println("Performing battery check during sleep...");
+
+    // Read battery voltage
+    uint16_t rawADC = analogRead(battMeasure);
+    float batteryVoltage = (rawADC / 1023.0) * 5 * 2;
+
+    Serial.print("Sleep battery voltage: ");
+    Serial.println(batteryVoltage);
+
+    // Update battery status
+    updateBatteryStatus(batteryVoltage);
+
+    // If battery is critical, shutdown immediately
+    if (isBatteryCritical()) {
+      Serial.println("Critical battery during sleep, shutting down...");
+
+      // Disable interrupts and RTC before shutdown
+      configureInterrupts(false);
+      configureRTCWakeup(false);
+
+      // Shutdown - this function doesn't return
+      shutdownPower();
+    }
+  } else {
+    // Reduced frequency logging to avoid spam
+    if (_rtcWakeupCounter % 60 == 0) { // Log every minute
+      Serial.print("RTC wake-up ");
+      Serial.print(_rtcWakeupCounter);
+      Serial.println("/600");
+    }
+  }
 }
 
 bool PowerController::isInSleepMode() const { return _isInSleepMode; }
@@ -136,6 +226,9 @@ void PowerController::updateBatteryStatus(float voltage) {
 bool PowerController::isBatteryCritical() const { return _batteryLow; }
 
 void PowerController::shutdownPower() {
+  Serial.println("Shutting down power...");
+  Serial.flush();
+
   // Pull power control pin LOW to turn off MOSFET
   digitalWrite(_powerControlPin, LOW);
 
@@ -144,32 +237,55 @@ void PowerController::shutdownPower() {
 }
 
 bool PowerController::checkForWakeUpTilt() {
-  // Check if device is upside down (tilt switch open)
-  bool isUpsideDown = (digitalRead(tiltSW) == HIGH);
+  // Only handle tilt wake-up in sleep mode
+  if (!_isInSleepMode) {
+    // Normal operation mode logic (unchanged)
+    bool isUpsideDown = (digitalRead(tiltSW) == HIGH);
 
-  // Start or continue timing upside down period
-  if (isUpsideDown) {
-    if (!_upsideDownDetected) {
-      // First detection of upside down
-      _upsideDownDetected = true;
-      _upsideDownStartTime = millis();
-    } else {
-      // Check if we've been upside down long enough to trigger wake-up
-      if ((millis() - _upsideDownStartTime) >= 3000) { // 3 seconds
-        _upsideDownDetected = false;
-
-        // Wake up if we're in sleep mode
-        if (_isInSleepMode) {
-          wakeUp();
+    if (isUpsideDown) {
+      if (!_upsideDownDetected) {
+        _upsideDownDetected = true;
+        _upsideDownStartTime = millis();
+      } else {
+        if ((millis() - _upsideDownStartTime) >= WAKEUP_TILT_DURATION) {
+          _upsideDownDetected = false;
           return true;
         }
       }
+    } else {
+      _upsideDownDetected = false;
     }
-  } else {
-    // Reset upside down detection if right side up
-    _upsideDownDetected = false;
+    return false;
   }
 
+  // Sleep mode logic - simplified approach to avoid RTC conflicts
+  // Check if we're upside down when we wake up
+  if (digitalRead(tiltSW) != HIGH) {
+    Serial.println("Not upside down, ignoring wake-up");
+    return false; // Not upside down, ignore wake-up
+  }
+
+  Serial.println("Upside down detected, starting timing...");
+
+  // Wait for the required duration while checking tilt state
+  unsigned long startTime = millis();
+
+  while (millis() - startTime < WAKEUP_TILT_DURATION) {
+    // If tilt changes during timing, abort
+    if (digitalRead(tiltSW) != HIGH) {
+      Serial.println("Tilt changed during timing, aborting...");
+      return false;
+    }
+    delay(50); // Small delay to prevent busy waiting
+  }
+
+  // Final check - still upside down?
+  if (digitalRead(tiltSW) == HIGH) {
+    Serial.println("Tilt held for required duration!");
+    return true;
+  }
+
+  Serial.println("Final tilt check failed, aborting...");
   return false;
 }
 
@@ -184,16 +300,45 @@ void PowerController::enableSleepMode(bool enable) {
 
 void PowerController::configureInterrupts(bool enable) {
   if (enable) {
-    // Configure pin change interrupt for tilt sensor
-    // We're assuming tiltSW is on PA7
+    Serial.println("Enabling tilt interrupt...");
 
-    // Enable pin change interrupt on tiltSW
-    PORTA.PIN7CTRL = PORT_ISC_BOTHEDGES_gc | PORT_PULLUPEN_bm;
+    // FIXED: Configure pin change interrupt for tilt sensor on PB0
+    // Enable pin change interrupt on tiltSW (PB0)
+    PORTB.PIN0CTRL = PORT_ISC_BOTHEDGES_gc | PORT_PULLUPEN_bm;
 
     // Clear any pending interrupts
-    PORTA.INTFLAGS = PORT_INT7_bm;
+    PORTB.INTFLAGS = PORT_INT0_bm;
+
+    Serial.print("Tilt switch initial state: ");
+    Serial.println(digitalRead(tiltSW) ? "HIGH (upside down)" : "LOW (normal)");
   } else {
+    Serial.println("Disabling tilt interrupt...");
+
     // Disable pin change interrupt
-    PORTA.PIN7CTRL = PORT_ISC_INTDISABLE_gc | PORT_PULLUPEN_bm;
+    PORTB.PIN0CTRL = PORT_ISC_INTDISABLE_gc | PORT_PULLUPEN_bm;
+  }
+}
+
+void PowerController::configureRTCWakeup(bool enable) {
+  if (enable) {
+    Serial.println("Configuring RTC for 1-second wake-ups...");
+
+    // Use internal 32kHz oscillator
+    RTC.CLKSEL = RTC_CLKSEL_INT32K_gc;
+
+    // Enable periodic interrupt
+    RTC.PITINTCTRL = RTC_PI_bm;
+
+    // Set period to 1 second (we'll count multiple wake-ups for battery check)
+    RTC.PITCTRLA = RTC_PERIOD_CYC32768_gc | RTC_PITEN_bm;
+
+    // Clear any pending interrupts
+    RTC.PITINTFLAGS = RTC_PI_bm;
+  } else {
+    Serial.println("Disabling RTC wake-up...");
+
+    // Disable RTC periodic interrupt
+    RTC.PITCTRLA = 0;
+    RTC.PITINTCTRL = 0;
   }
 }

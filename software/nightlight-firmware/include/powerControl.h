@@ -6,21 +6,25 @@
  * - Wake-up detection using tilt sensor
  * - Low battery auto-shutdown control
  * - Inactivity timer management
+ * - Periodic battery monitoring during sleep via RTC
  *
  * @authors Cameron Gillingham, Claude AI
- * @version 1.0
+ * @version 1.1
  */
-
 
 #ifndef POWER_CONTROL_H
 #define POWER_CONTROL_H
 
+#include "LEDController.h"
 #include "config.h"
 #include <Arduino.h>
 #include <avr/interrupt.h>
 #include <avr/power.h>
 #include <avr/sleep.h>
-#include "LEDController.h"
+
+// Global flags for interrupt communication
+extern volatile bool wakeFlag;
+extern volatile bool rtcWakeFlag;
 
 class PowerController {
 private:
@@ -43,12 +47,18 @@ private:
   bool _upsideDownDetected;
   unsigned long _upsideDownStartTime;
 
-  //Acces to LEDs
+  // RTC battery monitoring
+  uint8_t _rtcWakeupCounter;
+  static const uint8_t RTC_WAKEUPS_PER_BATTERY_CHECK =
+      60; // 60 * 10sec = 10 minutes
+
+  // Access to LEDs
   LEDController &_ledController;
 
   // Private methods
   void configureInterrupts(bool enable);
-  static void pinChangeISR(); // Static because it's used in an interrupt
+  void configureRTCWakeup(bool enable);
+  void checkBatteryDuringSleep();
 
 public:
   // Constructor
