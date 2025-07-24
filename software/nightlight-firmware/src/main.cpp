@@ -52,6 +52,7 @@ void setup() {
   shake.begin();
   shake.setShakeThreshold(5);
   shake.setShakeWindow(900);
+
 }
 
 void loop() {
@@ -62,6 +63,9 @@ void loop() {
     powerControl.update();
     return;
   }
+
+  // Check for wake-up tilt condition when not in sleep mode
+  //powerControl.checkForWakeUpTilt();
 
   // Read battery voltage and update power controller
   uint16_t rawADC = analogRead(battMeasure);

@@ -12,16 +12,17 @@
 #include "config.h"
 #include <Arduino.h>
 
+extern LEDController strip;
+
 // Flag used by interrupt handler to communicate with main code
 volatile bool wakeFlag = false;
 
-// ISR for pin change - keep it minimal
-ISR(PORTA_PORT_vect) {
+ISR(PORTB_PORT_vect) { // Changed from PORTA_PORT_vect
   // Just set the flag - don't do any processing in ISR
   wakeFlag = true;
 
   // Clear the interrupt flag
-  PORTA.INTFLAGS = PORT_INT7_bm; // Assuming tiltSW is on PA7
+  PORTB.INTFLAGS = PORT_INT0_bm; // Changed from PORTA and PORT_INT7_bm
 }
 
 PowerController::PowerController(uint8_t powerControlPin,
@@ -85,6 +86,7 @@ void PowerController::enterSleepMode() {
   // The following code runs after wake-up
   sleep_disable();
 
+
   // Manually check wake-up condition and process if necessary
   if (wakeFlag) {
     wakeUp();
@@ -93,6 +95,7 @@ void PowerController::enterSleepMode() {
 }
 
 void PowerController::wakeUp() {
+
   // Exit sleep mode
   _isInSleepMode = false;
 
@@ -104,7 +107,7 @@ void PowerController::wakeUp() {
 
   // Trigger wake-up lighting effect
   // triggerWakeUpEffect();
-  _ledController.wakeEffect();
+  strip.wakeEffect();
 }
 
 bool PowerController::isInSleepMode() const { return _isInSleepMode; }
@@ -184,16 +187,14 @@ void PowerController::enableSleepMode(bool enable) {
 
 void PowerController::configureInterrupts(bool enable) {
   if (enable) {
-    // Configure pin change interrupt for tilt sensor
-    // We're assuming tiltSW is on PA7
-
-    // Enable pin change interrupt on tiltSW
-    PORTA.PIN7CTRL = PORT_ISC_BOTHEDGES_gc | PORT_PULLUPEN_bm;
+    // Configure pin change interrupt for tilt sensor on PB0
+    PORTB.PIN0CTRL = PORT_ISC_BOTHEDGES_gc | PORT_PULLUPEN_bm;
 
     // Clear any pending interrupts
-    PORTA.INTFLAGS = PORT_INT7_bm;
+    PORTB.INTFLAGS = PORT_INT0_bm;
   } else {
     // Disable pin change interrupt
-    PORTA.PIN7CTRL = PORT_ISC_INTDISABLE_gc | PORT_PULLUPEN_bm;
+    PORTB.PIN0CTRL = PORT_ISC_INTDISABLE_gc | PORT_PULLUPEN_bm;
   }
-}
+  }
+
