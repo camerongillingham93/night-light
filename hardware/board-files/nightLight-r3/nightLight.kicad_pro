@@ -204,10 +204,7 @@
     "equivalence_files": []
   },
   "erc": {
-    "erc_exclusions": [
-      "power_pin_not_driven|1397000|558800|07938ee5-1b71-4bc7-a7f9-bf76094d56ce|00000000-0000-0000-0000-000000000000|||",
-      "power_pin_not_driven|1397000|914400|15215c71-0c1d-4df2-b10f-a745bdd78378|00000000-0000-0000-0000-000000000000|||"
-    ],
+    "erc_exclusions": [],
     "meta": {
       "version": 0
     },
@@ -537,7 +534,7 @@
       "idf": "",
       "netlist": "",
       "specctra_dsn": "",
-      "step": "",
+      "step": "nightLight.step",
       "vrml": ""
     },
     "page_layout_descr_file": ""
