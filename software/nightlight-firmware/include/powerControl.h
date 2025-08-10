@@ -38,6 +38,7 @@ private:
   float _criticalBatteryThreshold;
   float _wakeupBatteryThreshold;
   bool _batteryLow;
+  bool _batteryCheckWakeUp;
 
   // Wake-up tilt detection
   bool _upsideDownDetected;
@@ -72,12 +73,16 @@ public:
   void updateBatteryStatus(float voltage);
   bool isBatteryCritical() const;
   void shutdownPower();
+  void configureBatteryCheckTimer();
+  void handleBatteryCheckWakeUp();
 
   // Wake-up detection
   bool checkForWakeUpTilt();
 
   // Enable/disable sleep functionality
   void enableSleepMode(bool enable);
+
+
 };
 
 #endif

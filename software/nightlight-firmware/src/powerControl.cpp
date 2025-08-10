@@ -17,12 +17,29 @@ extern LEDController strip;
 // Flag used by interrupt handler to communicate with main code
 volatile bool wakeFlag = false;
 
+volatile uint16_t batteryCheckCounter = 0;
+volatile bool rtcWakeFlag = false;
+const uint16_t BATTERY_CHECK_INTERVAL =
+    10; // Start with 10 seconds for testing, change to 600 later
+
 ISR(PORTB_PORT_vect) { // Changed from PORTA_PORT_vect
   // Just set the flag - don't do any processing in ISR
   wakeFlag = true;
 
   // Clear the interrupt flag
   PORTB.INTFLAGS = PORT_INT0_bm; // Changed from PORTA and PORT_INT7_bm
+}
+
+ISR(RTC_PIT_vect) {
+  batteryCheckCounter++;
+
+  if (batteryCheckCounter >= BATTERY_CHECK_INTERVAL) {
+    rtcWakeFlag = true;
+    batteryCheckCounter = 0;
+  }
+
+  // Clear the interrupt flag
+  RTC.PITINTFLAGS = RTC_PI_bm;
 }
 
 PowerController::PowerController(uint8_t powerControlPin,
@@ -35,7 +52,8 @@ PowerController::PowerController(uint8_t powerControlPin,
           CRITICAL_BATTERY_THRESHOLD), // V - shutdown threshold
       _wakeupBatteryThreshold(
           WAKEUP_BATTERY_THRESHOLD), // V - safe to wake up threshold
-      _batteryLow(false), _upsideDownDetected(false), _upsideDownStartTime(0) {}
+      _batteryLow(false), _upsideDownDetected(false), _upsideDownStartTime(0),
+      _batteryCheckWakeUp(false) {}
 
 void PowerController::begin() {
   // Initialize power control pin to active HIGH (keeping power on)
@@ -73,7 +91,16 @@ void PowerController::enterSleepMode() {
   _isInSleepMode = true;
 
   // Configure wake-up interrupt
-  configureInterrupts(true);
+  configureInterrupts(true);  // tilt sensor
+  //configureBatteryCheckTimer(); // RTC timer
+
+  // DEBUG: Flash yellow before going to sleep
+  _ledController.setState(true);
+  _ledController.setBrightness(255);
+  _ledController.setColor(255, 255, 0); // Yellow - "Going to sleep"
+  delay(500);
+  _ledController.setState(false);
+  delay(100);
 
   // Prepare for sleep mode
   set_sleep_mode(SLEEP_MODE_PWR_DOWN);
@@ -86,6 +113,12 @@ void PowerController::enterSleepMode() {
   // The following code runs after wake-up
   sleep_disable();
 
+  // Check what woke us up
+  if (rtcWakeFlag) {
+    rtcWakeFlag = false;
+    handleBatteryCheckWakeUp();
+    // Stay in sleep mode after battery check (continue while loop)
+  }
 
   // Manually check wake-up condition and process if necessary
   if (wakeFlag) {
@@ -185,6 +218,41 @@ void PowerController::enableSleepMode(bool enable) {
   }
 }
 
+void PowerController::handleBatteryCheckWakeUp() {
+  // DEBUG: Flash blue LEDs to show battery check wake-up
+  for (int i = 0; i < 2; i++) {
+    _ledController.setColor(0, 0, 255); // Blue
+    _ledController.setBrightness(100);
+    _ledController.setState(true);
+    delay(200);
+    _ledController.setState(false);
+    delay(200);
+  }
+
+  // Quick battery check (using the same code from your main loop)
+  uint16_t rawADC = analogRead(battMeasure);
+  float batteryVoltage = (rawADC / 1023.0) * 5 * 2;
+
+  if (batteryVoltage <= _criticalBatteryThreshold) {
+    // DEBUG: Flash red to show critical battery before shutdown
+    for (int i = 0; i < 5; i++) {
+      _ledController.setColor(0, 255, 0); // Red
+      _ledController.setBrightness(255);
+      _ledController.setState(true);
+      delay(100);
+      _ledController.setState(false);
+      delay(100);
+    }
+
+    // Battery critical - shutdown immediately
+    shutdownPower();
+    return; // Device will be off after this
+  }
+
+  // Battery OK - the device will go back to sleep automatically
+  // since _isInSleepMode is still true
+}
+
 void PowerController::configureInterrupts(bool enable) {
   if (enable) {
     // Configure pin change interrupt for tilt sensor on PB0
@@ -198,3 +266,16 @@ void PowerController::configureInterrupts(bool enable) {
   }
   }
 
+  void PowerController::configureBatteryCheckTimer() {
+    // Configure RTC to use internal 32kHz oscillator
+    RTC.CLKSEL = RTC_CLKSEL_INT32K_gc;
+
+    // Configure PIT (Periodic Interrupt Timer) for 1-second intervals
+    RTC.PITCTRLA = RTC_PERIOD_CYC32768_gc | RTC_PITEN_bm;
+
+    // Enable PIT interrupt
+    RTC.PITINTCTRL = RTC_PI_bm;
+
+    // Reset counter
+    batteryCheckCounter = 0;
+  }

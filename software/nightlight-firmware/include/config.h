@@ -26,7 +26,7 @@
   30000 // 180000        // 3 minutes of inactivity before sleep
 #define CRITICAL_BATTERY_THRESHOLD 2.8 // Volts - hard shutdown
 #define WAKEUP_BATTERY_THRESHOLD 2.9   // Volts - can wake up again (hysteresis)
-#define WAKEUP_TILT_DURATION 3000      // 3 seconds upside down to wake up
+#define WAKEUP_TILT_DURATION 3000     // 3 seconds upside down to wake up
 
 #endif
 
